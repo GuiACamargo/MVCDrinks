@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout.html}">
+<div layout:fragment="content">
+	<link rel="stylesheet" href="../css/style.css">
+	<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+	  <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+	    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+	  </symbol>
+    </svg>
+	
+	<div class="alert alert-success d-flex align-items-center mt-4" role="alert" th:if="${mensagem != null}">
+	<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+	  <div th:text="${mensagem}">
+	  </div>
+	</div>
+			
+	<div class="card text-bg-dark overflow-auto mt-4 pb-5" style="overflow-x:hidden">
+		<img
+			src="https://1.cms.s81c.com/sites/default/files/2020-07-21/hco-6584-leadspace-dark.jpg"
+			class="card-img-top" alt="...">
+		<div class="card-body">
+			<h3 class="card-title">Cadastro de Receita</h3>
+
+			<form method="POST" th:object="${receita}"
+				th:action="@{/receita/manage}">
+				<input type="hidden" th:field="*{id}"></input> 
+				<label for="basic-addon1" class="form-label">
+					Nome da Receita
+				</label>
+				<div class="input-group mb-3">
+					<input type="text" class="form-control"
+						aria-label="Nome da Receita"
+						aria-describedby="basic-addon1" th:field="*{nome}">
+					<div class="text-danger" th:errors="*{nome}"
+						th:if="${#fields.hasErrors('nome')}"></div>
+				</div>
+
+				<div class="row">
+					<div class="col">
+						<label for="basic-addon2" class="form-label">Tempo de Preparo</label>
+						<div class="input-group mb-3">
+							<input type="number" class="form-control" placeholder="18"
+								aria-label="Tempo de Preparo" aria-describedby="basic-addon2"
+								th:field="*{tempoDePreparo}" maxlength="3"><span class="input-group-text"
+								id="basic-addon2">minutos</span>
+							<div class="text-danger" th:errors="*{tempoDePreparo}"
+								th:if="${#fields.hasErrors('tempoDePreparo')}"></div>
+
+						</div>
+					</div>
+					<div class="col">
+						<label for="basic-addon2" class="form-label">
+							Ingredientes
+						</label>
+						<div class="input-group mb-3">
+							<input type="number" step="0.01" min="0.01"
+								class="form-control" aria-label="Modo de Preparo" th:field="*{modoDePreparo}">
+							<span class="input-group-text">.00</span>
+							<div class="text-danger" th:errors="*{modoDePreparo}"
+								th:if="${#fields.hasErrors('modoDePreparo')}"></div>
+
+						</div>
+					</div>
+				</div>
+				<div class="mb-3">
+				  	<label for="modoDePreparo" class="form-label">Modo de Preparo</label>
+				  	<textarea class="form-control" id="modoDePreparo" rows="3"></textarea>
+				</div>
+<!-- 				<div class="d-grid d-md-block mx-auto"> -->
+					<button type="submit" class="btn btn-primary">Salvar Receita</button>
+<!-- 				</div> -->
+			</form>
+		</div>
+	</div>
+</div>
+</html>
