@@ -20,22 +20,23 @@ body {
 }
 
 ::-webkit-scrollbar {
-	width: 14px;
+	width: 16px;
 }
 
 ::-webkit-scrollbar-track {
 	box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-  	background: #78c9cf;
+  	background: #b5b5b5;
 }
 
 ::-webkit-scrollbar-thumb {
-  	border: 1px solid #78c9cf;
- 	background: #1a5357;
+  	border: 2px solid #b5b5b5;
+ 	background: linear-gradient(0deg, rgba(13, 13, 13, 1) 0%,
+		rgba(88, 89, 89, 1) 100%);
  	border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
- 	background: #257f85;
+ 	background: #0d0d0d;
 }
 
 .ocean {

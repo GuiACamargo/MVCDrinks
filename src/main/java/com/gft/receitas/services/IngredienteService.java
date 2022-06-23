@@ -30,7 +30,15 @@ public class IngredienteService {
 		return ingrediente.get();
 	}
 	
-	public List<Ingrediente> listaIngrediente() {
+	public List<Ingrediente> listaIngrediente(String nome) {
+		if(nome != null) {
+			return ingredienteRepository.findByNomeContains(nome);
+		}
+		
+		return listaIngredienteCompleto();
+	}
+	
+	public List<Ingrediente> listaIngredienteCompleto() {
 		return ingredienteRepository.findAll();
 	}
 	

@@ -7,13 +7,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Ingrediente {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;	
+	private Long id;
+	@NotBlank (message = "Não pode ser vazio!")
 	private String nome;
 	@ManyToMany(mappedBy = "ingredientes")
 	private List<Receita> receitas;
