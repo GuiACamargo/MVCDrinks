@@ -21,56 +21,78 @@
 			src="https://1.cms.s81c.com/sites/default/files/2020-07-21/hco-6584-leadspace-dark.jpg"
 			class="card-img-top" alt="...">
 		<div class="card-body">
-			<h3 class="card-title">Cadastro de Receita</h3>
+			<h3 class="card-title">
+				<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-clipboard-plus" viewBox="0 0 16 16">
+  					<path fill-rule="evenodd" d="M8 7a.5.5 0 0 1 .5.5V9H10a.5.5 0 0 1 0 1H8.5v1.5a.5.5 0 0 1-1 0V10H6a.5.5 0 0 1 0-1h1.5V7.5A.5.5 0 0 1 8 7z"/>
+ 					<path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+  					<path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+				</svg>
+				<span class="align-middle">Cadastro de Receita</span>
+			</h3>
 
-			<form method="POST" th:object="${receita}"
+			<form method="POST"
 				th:action="@{/receita/manage}">
-				<input type="hidden" th:field="*{id}"></input> 
+				<input type="hidden" th:field="${receita.id}"></input> 
 				<label for="basic-addon1" class="form-label">
 					Nome da Receita
 				</label>
 				<div class="input-group mb-3">
 					<input type="text" class="form-control"
 						aria-label="Nome da Receita"
-						aria-describedby="basic-addon1" th:field="*{nome}">
-					<div class="text-danger" th:errors="*{nome}"
-						th:if="${#fields.hasErrors('nome')}"></div>
-				</div>
+						aria-describedby="basic-addon1" th:field="${receita.nome}">
+					<div class="text-danger" th:errors="${receita.nome}"
+						th:if="${#fields.hasErrors('receita.nome')}"></div>
+					</div>
+					<label for="basic-addon2" class="form-label">Tempo de Preparo</label>
+					<div class="input-group mb-3">
+						<input type="number" class="form-control"
+							aria-label="Tempo de Preparo" aria-describedby="basic-addon2"
+							th:field="${receita.tempoDePreparo}" maxlength="3" min="1"><span class="input-group-text"
+							id="basic-addon2">minutos</span>
+						<div class="text-danger" th:errors="${receita.tempoDePreparo}"
+							th:if="${#fields.hasErrors('receita.tempoDePreparo')}"></div> 
+<!-- 							^^^^^^^^^ TIRAR DAQUI PARA NAO FICAR GRUDADO NO INPUT -->
+					</div>
 
-				<div class="row">
-					<div class="col">
-						<label for="basic-addon2" class="form-label">Tempo de Preparo</label>
-						<div class="input-group mb-3">
-							<input type="number" class="form-control" placeholder="18"
-								aria-label="Tempo de Preparo" aria-describedby="basic-addon2"
-								th:field="*{tempoDePreparo}" maxlength="3"><span class="input-group-text"
-								id="basic-addon2">minutos</span>
-							<div class="text-danger" th:errors="*{tempoDePreparo}"
-								th:if="${#fields.hasErrors('tempoDePreparo')}"></div>
-
+					<div class="mb-3">
+					  	<label for="modoDePreparo" class="form-label">Modo de Preparo</label>
+					  	<textarea class="form-control" id="modoDePreparo" rows="2" th:field="${receita.modoDePreparo}"></textarea>
+					</div>
+					<div class="card mb-3 ps-3 pt-2 pe-3" style="background:#3b3c3d">
+						<div class="row justify-content-center">
+							<div class="col-4">
+								<label for="basic-addon2" class="form-label">
+									Ingredientes
+								</label>
+								<div class="input-group mb-3">
+									<select class="form-select" th:field="${unidadeIngreReceita.ingrediente}">
+										<option value="" selected hidden>Escolha</option>
+						 				<option th:each="ingrediente: ${listaIngrediente}" th:value="${ingrediente.id}" th:text="${ingrediente.nome}"></option>
+						 			</select>
+								</div>
+							</div>
+							<div class="col-4">	
+								<label for="basic-addon2" class="form-label">
+									Unidade de Medida
+								</label>					
+								<div class="input-group mb-3">
+									<select class="form-select" th:field="${unidadeIngreReceita.unidadeMedida}">
+										<option value="" selected hidden>Escolha</option>
+						 				<option th:each="unidadeMedida: ${listaUnidadeMedida}" th:value="${unidadeMedida.id}" th:text="${unidadeMedida.nome}"></option>
+						 			</select>
+								</div>
+							</div>
+							<div class="col-4">	
+								<label for="basic-addon2" class="form-label">
+									Quantidade
+								</label>					
+								<div class="input-group mb-3">
+									<input type="number" class="form-control" aria-describedby="addon-wrapping" min="1" th:field="${unidadeIngreReceita.quantidade}">
+								</div>
+							</div>
 						</div>
 					</div>
-					<div class="col">
-						<label for="basic-addon2" class="form-label">
-							Ingredientes
-						</label>
-						<div class="input-group mb-3">
-							<input type="number" step="0.01" min="0.01"
-								class="form-control" aria-label="Modo de Preparo" th:field="*{modoDePreparo}">
-							<span class="input-group-text">.00</span>
-							<div class="text-danger" th:errors="*{modoDePreparo}"
-								th:if="${#fields.hasErrors('modoDePreparo')}"></div>
-
-						</div>
-					</div>
-				</div>
-				<div class="mb-3">
-				  	<label for="modoDePreparo" class="form-label">Modo de Preparo</label>
-				  	<textarea class="form-control" id="modoDePreparo" rows="2"></textarea>
-				</div>
-<!-- 				<div class="d-grid d-md-block mx-auto"> -->
 					<button type="submit" class="btn btn-primary">Salvar Receita</button>
-<!-- 				</div> -->
 			</form>
 		</div>
 	</div>

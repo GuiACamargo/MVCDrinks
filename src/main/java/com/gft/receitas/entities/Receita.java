@@ -1,12 +1,12 @@
 package com.gft.receitas.entities;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Receita {
@@ -16,11 +16,19 @@ public class Receita {
 	private String nome;
 	private int tempoDePreparo;
 	private String modoDePreparo;
-	@ManyToMany
-	private List<Ingrediente> ingredientes;
-	@ManyToMany
-	private List<UnidadeMedida> unidadeMedidas;
-	
+	@OneToMany(mappedBy = "receita")
+	private Set<Item> item;
+		
+	public Receita() {
+	}
+
+	public Receita(String nome, int tempoDePreparo, String modoDePreparo, Set<Item> item) {
+		this.nome = nome;
+		this.tempoDePreparo = tempoDePreparo;
+		this.modoDePreparo = modoDePreparo;
+		this.item = item;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -52,21 +60,12 @@ public class Receita {
 	public void setModoDePreparo(String modoDePreparo) {
 		this.modoDePreparo = modoDePreparo;
 	}
-	
-	public List<Ingrediente> getIngredientes() {
-		return ingredientes;
+
+	public Set<Item> getItem() {
+		return item;
 	}
-	
-	public void setIngredientes(List<Ingrediente> ingredientes) {
-		this.ingredientes = ingredientes;
-	}
-	
-	public List<UnidadeMedida> getUnidadeMedidas() {
-		return unidadeMedidas;
-	}
-	
-	public void setUnidadeMedidas(List<UnidadeMedida> unidadeMedidas) {
-		this.unidadeMedidas = unidadeMedidas;
-	}
-	
+
+	public void setItem(Set<Item> item) {
+		this.item = item;
+	}	
 }

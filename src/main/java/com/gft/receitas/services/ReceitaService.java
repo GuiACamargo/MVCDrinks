@@ -6,14 +6,29 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gft.receitas.entities.Ingrediente;
+import com.gft.receitas.entities.Item;
 import com.gft.receitas.entities.Receita;
+import com.gft.receitas.entities.UnidadeMedida;
+import com.gft.receitas.repositories.IngredienteRepository;
+import com.gft.receitas.repositories.ItemRepository;
 import com.gft.receitas.repositories.ReceitaRepository;
+import com.gft.receitas.repositories.UnidadeMedidaRepository;
 
 @Service
 public class ReceitaService {
 
 	@Autowired
 	private ReceitaRepository receitaRepository;
+	
+	@Autowired
+	private IngredienteRepository ingredienteRepository;
+
+	@Autowired
+	private UnidadeMedidaRepository unidadeMedidaRepository;
+	
+	@Autowired
+	private ItemRepository itemRepository;
 	
 	
 	public Receita salvarReceita (Receita receita) {
@@ -36,6 +51,26 @@ public class ReceitaService {
 	
 	public void excluirReceita (Long id) {
 		receitaRepository.deleteById(id);
+		itemRepository.deleteById(id);
+	}
+	
+	public void popularBanco(Long id) {
+		Receita receita = new Receita();
+		Ingrediente ingrediente = new Ingrediente();
+		Item item = new Item();
+		UnidadeMedida unidadeMedida = new UnidadeMedida();
+		receita.setModoDePreparo("wdawdawd");
+		receita.setNome("teste");
+		receita.setTempoDePreparo(2);
+		ingrediente.setNome("blabla");
+		unidadeMedida.setNome("blabla");
+		item.setUnidadeMedida(unidadeMedida);
+		item.setIngrediente(ingrediente);
+		item.setReceita(receita);
+		receitaRepository.save(receita);
+		ingredienteRepository.save(ingrediente);
+		unidadeMedidaRepository.save(unidadeMedida);
+		itemRepository.save(item);
 	}
 	
 }

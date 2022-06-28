@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 
 @Entity
@@ -17,8 +17,17 @@ public class Ingrediente {
 	private Long id;
 	@NotBlank (message = "Não pode ser vazio!")
 	private String nome;
-	@ManyToMany(mappedBy = "ingredientes")
-	private List<Receita> receitas;
+	@OneToMany(mappedBy = "ingrediente")
+	List<Item> item;
+
+	public Ingrediente() {
+
+	}
+
+	public Ingrediente(@NotBlank(message = "Não pode ser vazio!") String nome, List<Item> item) {
+		this.nome = nome;
+		this.item = item;
+	}
 
 	public Long getId() {
 		return id;
@@ -35,13 +44,13 @@ public class Ingrediente {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
-	public List<Receita> getReceitas() {
-		return receitas;
+
+	public List<Item> getItem() {
+		return item;
 	}
-	
-	public void setReceitas(List<Receita> receitas) {
-		this.receitas = receitas;
+
+	public void setItem(List<Item> item) {
+		this.item = item;
 	}
 	
 }

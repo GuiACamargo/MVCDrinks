@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class UnidadeMedida {
@@ -12,6 +13,7 @@ public class UnidadeMedida {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotBlank (message = "Não pode ser vazio!")
 	private String nome;
 
 	public Long getId() {

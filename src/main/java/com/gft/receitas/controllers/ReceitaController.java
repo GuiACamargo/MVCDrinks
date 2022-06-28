@@ -9,9 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gft.receitas.entities.Receita;
+import com.gft.receitas.entities.Item;
+import com.gft.receitas.services.IngredienteService;
 import com.gft.receitas.services.ReceitaService;
+import com.gft.receitas.services.ItemService;
+import com.gft.receitas.services.UnidadeMedidaService;
 
 @Controller
 @RequestMapping("/receita")
@@ -20,51 +25,105 @@ public class ReceitaController {
 	@Autowired
 	private ReceitaService receitaService;
 	
+	@Autowired
+	private IngredienteService ingredienteService;
+	
+	@Autowired
+	private UnidadeMedidaService unidadeMedidaService;
+	
+	@Autowired
+	private ItemService itemService; 
+	
 	@RequestMapping(path = "/manage")
 	public ModelAndView editarReceita(@RequestParam (required=false) Long id) {
 		ModelAndView mv = new ModelAndView("receita/form");
 		Receita receita;
+		Item item;
 		
 		if(id==null) {
 			receita = new Receita();
+			item = new Item();
+			mv.addObject("listaIngrediente", ingredienteService.listaIngredienteCompleto());
+			mv.addObject("listaUnidadeMedida", unidadeMedidaService.listaUnidadeMedidaCompleto());
 		} else {
 			try {
 				receita = receitaService.obterReceita(id);
+				item = new Item();
 			} catch (Exception e) {
 				receita = new Receita();
+				item = new Item();
 				mv.addObject("mensagem", e.getMessage());
 			}
 		}
 		
+		item.setReceita(receita);
 		mv.addObject("receita", receita);
+		mv.addObject("unidadeIngreReceita", item);
+		mv.addObject("listaIngrediente", ingredienteService.listaIngredienteCompleto());
+		mv.addObject("listaUnidadeMedida", unidadeMedidaService.listaUnidadeMedidaCompleto());
 		
 		return mv;
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, path = "/manage")
-	public ModelAndView salvarReceita(@Valid Receita receita, BindingResult bindingResult) {
+	public ModelAndView salvarReceita(@Valid Receita receita, Item item, BindingResult bindingResult) {
 		ModelAndView mv = new ModelAndView("receita/form");
 		
 		boolean novo = true;
 		
 		if(receita.getId() != null) {
 			mv.addObject("receita", receita);
+			mv.addObject("unidadeIngreReceita", item);
 			novo = false;
 		}
 			
 		if(bindingResult.hasErrors()) {
 			mv.addObject("receita", receita);
+			mv.addObject("unidadeIngreReceita", item);
 		}
 		
 		receitaService.salvarReceita(receita);
-		
+		itemService.salvarReceitaNoConjunto(item, receita);
+		itemService.salvarUnidadeIngreReceita(item);
+
 		if(novo) {
 			mv.addObject("receita", new Receita());
+			mv.addObject("unidadeIngreReceita", new Item());
 		} else {
 			mv.addObject("receita", receita);
+			mv.addObject("unidadeIngreReceita", item);
 		}
 
 		mv.addObject("mensagem", "Receita salva com sucesso!");
+		return mv;
+	}
+	
+	@RequestMapping(path = "/popular")
+	public ModelAndView popularBanco(@RequestParam Long id) {
+		ModelAndView mv = new ModelAndView("redirect:/ingrediente");
+		
+		receitaService.popularBanco(id);
+		
+		return mv;
+	}
+	
+	@RequestMapping
+	public ModelAndView listarReceita() {
+		ModelAndView mv = new ModelAndView("receita/listar");
+		mv.addObject("lista", receitaService.listaReceita());
+		return mv;
+	}
+	
+	@RequestMapping(path="/excluir")
+	public ModelAndView excluirIngrediente(@RequestParam Long id, RedirectAttributes redirectAttributes) {
+		ModelAndView mv = new ModelAndView("redirect:/receita");
+		
+		try {
+			ingredienteService.excluirIngrediente(id);
+			redirectAttributes.addFlashAttribute("mensagem", "Receita excluída com sucesso!");
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute("mensagem", "Erro ao excluir receita! " + e.getMessage());
+		}
 		
 		return mv;
 	}

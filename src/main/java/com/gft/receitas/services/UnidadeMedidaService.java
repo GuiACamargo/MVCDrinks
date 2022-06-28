@@ -30,12 +30,19 @@ public class UnidadeMedidaService {
 		return unidadeMedida.get();
 	}
 	
-	public List<UnidadeMedida> listaUnidadeMedida () {
+	public List<UnidadeMedida> listaUnidadeMedida (String nome) {
+		if (nome != null) {
+			return unidadeMedidaRepository.findByNomeContains(nome);
+		}
+		
+		return listaUnidadeMedidaCompleto();
+	}
+	
+	public List<UnidadeMedida> listaUnidadeMedidaCompleto() {
 		return unidadeMedidaRepository.findAll();
 	}
 	
 	public void excluirUnidadeMedida(Long id) {
 		unidadeMedidaRepository.deleteById(id);
 	}
-	
 }
