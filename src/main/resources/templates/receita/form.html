@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout.html}">
+<meta charset="UTF-8">
 <div layout:fragment="content">
 	<link rel="stylesheet" href="../css/style.css">
 	<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -27,14 +28,14 @@
  					<path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
   					<path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
 				</svg>
-				<span class="align-middle">Cadastro de Receita</span>
+				<span class="align-middle">Cadastro de Drink</span>
 			</h3>
 
 			<form method="POST"
 				th:action="@{/receita/manage}">
 				<input type="hidden" th:field="${receita.id}"></input> 
 				<label for="basic-addon1" class="form-label">
-					Nome da Receita
+					Nome do Drink
 				</label>
 				<div class="input-group mb-3">
 					<input type="text" class="form-control"
@@ -43,29 +44,46 @@
 					<div class="text-danger" th:errors="${receita.nome}"
 						th:if="${#fields.hasErrors('receita.nome')}"></div>
 					</div>
-					<label for="basic-addon2" class="form-label">Tempo de Preparo</label>
-					<div class="input-group mb-3">
-						<input type="number" class="form-control"
-							aria-label="Tempo de Preparo" aria-describedby="basic-addon2"
-							th:field="${receita.tempoDePreparo}" maxlength="3" min="1"><span class="input-group-text"
-							id="basic-addon2">minutos</span>
-						<div class="text-danger" th:errors="${receita.tempoDePreparo}"
-							th:if="${#fields.hasErrors('receita.tempoDePreparo')}"></div> 
-<!-- 							^^^^^^^^^ TIRAR DAQUI PARA NAO FICAR GRUDADO NO INPUT -->
+					<div class="row align-items-center">
+						<div class="col">
+							<label for="basic-addon2" class="form-label">Tempo de Preparo</label>
+							<div class="input-group mb-3">
+								<input type="number" class="form-control"
+									aria-label="Tempo de Preparo" aria-describedby="basic-addon2"
+									th:field="${receita.tempoDePreparo}" maxlength="3" min="1"><span class="input-group-text"
+									id="basic-addon2">minutos</span>
+								<div class="text-danger" th:errors="${receita.tempoDePreparo}"
+									th:if="${#fields.hasErrors('receita.tempoDePreparo')}"></div> 
+		<!-- 							^^^^^^^^^ TIRAR DAQUI PARA NAO FICAR GRUDADO NO INPUT -->
+							</div>
+						</div>
+						<div class="col card mb-2 me-3" style="background:#3b3c3d">
+							<label for="basic-addon2" class="form-label">Alcoólico</label>
+							<div class="pt-2">
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="true" th:field="${receita.alcoolico}">
+									<label class="form-check-label" for="inlineRadio1">Sim, é alcoólico</label>
+								</div>
+								<div class="form-check form-check-inline">
+									<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="false" th:field="${receita.alcoolico}">
+									<label class="form-check-label" for="inlineRadio2">Não, não é alcoólico</label>
+								</div>
+							</div>
+						</div>
 					</div>
 
 					<div class="mb-3">
 					  	<label for="modoDePreparo" class="form-label">Modo de Preparo</label>
 					  	<textarea class="form-control" id="modoDePreparo" rows="2" th:field="${receita.modoDePreparo}"></textarea>
 					</div>
-					<div class="card mb-3 ps-3 pt-2 pe-3" style="background:#3b3c3d">
+					<div class="card mb-3 ps-3 pt-2 pe-3 me-1 ms-1" style="background:#3b3c3d">
 						<div class="row justify-content-center">
 							<div class="col-4">
 								<label for="basic-addon2" class="form-label">
 									Ingredientes
 								</label>
 								<div class="input-group mb-3">
-									<select class="form-select" th:field="${unidadeIngreReceita.ingrediente}">
+									<select class="form-select" th:field="${item.ingrediente}">
 										<option value="" selected hidden>Escolha</option>
 						 				<option th:each="ingrediente: ${listaIngrediente}" th:value="${ingrediente.id}" th:text="${ingrediente.nome}"></option>
 						 			</select>
@@ -76,7 +94,7 @@
 									Unidade de Medida
 								</label>					
 								<div class="input-group mb-3">
-									<select class="form-select" th:field="${unidadeIngreReceita.unidadeMedida}">
+									<select class="form-select" th:field="${item.unidadeMedida}">
 										<option value="" selected hidden>Escolha</option>
 						 				<option th:each="unidadeMedida: ${listaUnidadeMedida}" th:value="${unidadeMedida.id}" th:text="${unidadeMedida.nome}"></option>
 						 			</select>
@@ -87,12 +105,12 @@
 									Quantidade
 								</label>					
 								<div class="input-group mb-3">
-									<input type="number" class="form-control" aria-describedby="addon-wrapping" min="1" th:field="${unidadeIngreReceita.quantidade}">
+									<input type="number" class="form-control" aria-describedby="addon-wrapping" min="1" th:field="${item.quantidade}">
 								</div>
 							</div>
 						</div>
 					</div>
-					<button type="submit" class="btn btn-primary">Salvar Receita</button>
+					<button type="submit" class="btn btn-primary">Salvar Drink</button>
 			</form>
 		</div>
 	</div>

@@ -16,16 +16,18 @@ public class Receita {
 	private String nome;
 	private int tempoDePreparo;
 	private String modoDePreparo;
+	private Boolean alcoolico;
 	@OneToMany(mappedBy = "receita")
 	private Set<Item> item;
 		
 	public Receita() {
 	}
 
-	public Receita(String nome, int tempoDePreparo, String modoDePreparo, Set<Item> item) {
+	public Receita(String nome, int tempoDePreparo, String modoDePreparo, boolean alcoolico, Set<Item> item) {
 		this.nome = nome;
 		this.tempoDePreparo = tempoDePreparo;
 		this.modoDePreparo = modoDePreparo;
+		this.alcoolico = alcoolico;
 		this.item = item;
 	}
 
@@ -59,6 +61,14 @@ public class Receita {
 	
 	public void setModoDePreparo(String modoDePreparo) {
 		this.modoDePreparo = modoDePreparo;
+	}
+
+	public Boolean getAlcoolico() {
+		return alcoolico;
+	}
+
+	public void setAlcoolico(Boolean alcoolico) {
+		this.alcoolico = alcoolico;
 	}
 
 	public Set<Item> getItem() {

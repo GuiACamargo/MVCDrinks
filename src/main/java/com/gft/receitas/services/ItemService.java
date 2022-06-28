@@ -6,9 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.gft.receitas.entities.Receita;
 import com.gft.receitas.entities.Item;
+import com.gft.receitas.entities.Receita;
 import com.gft.receitas.repositories.ItemRepository;
+import com.gft.receitas.repositories.ReceitaRepository;
 
 @Service
 public class ItemService {
@@ -16,25 +17,38 @@ public class ItemService {
 	@Autowired
 	ItemRepository itemRepository;
 	
-	public Item salvarUnidadeIngreReceita(Item item) {
+	@Autowired
+	ReceitaRepository receitaRepository;
+	
+	public Item salvarItem(Item item) {
 		return itemRepository.save(item);
 	}
 	
-	public Item obterUnidadeIngreReceita (Long id) throws Exception {
+	public Item obterItem (Long id) throws Exception {
 		Optional<Item> item = itemRepository.findById(id);
 		
 		if(item.isEmpty()) {
-			throw new Exception ("Conjunto não encontrada!");
+			throw new Exception ("Item não encontrada!");
 		}
 		
 		return item.get();
 	}
 	
-	public List<Item> listaUnidadeIngreReceita () {
+	
+	
+//	public List<Item> listaIngrediente(String nome) {
+//		if(nome != null) {
+//			List<Receita> receita = receitaRepository.findByNome(nome);
+//		}
+//		
+//		return listaItens();
+//	}	
+	
+	public List<Item> listaItens () {
 		return itemRepository.findAll();
 	}
 	
-	public void excluirUnidadeIngreReceita (Long id) {
+	public void excluirItem (Long id) {
 		itemRepository.deleteById(id);
 	}
 	
@@ -42,7 +56,7 @@ public class ItemService {
 		return itemRepository.findByIdContains(id);
 	}
 	
-	public void salvarReceitaNoConjunto (Item item, Receita receita) {
+	public void salvarReceitaNoItem (Item item, Receita receita) {
 		item.setReceita(receita);
 	}
 }

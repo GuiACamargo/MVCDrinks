@@ -35,20 +35,20 @@ public class ReceitaController {
 	private ItemService itemService; 
 	
 	@RequestMapping(path = "/manage")
-	public ModelAndView editarReceita(@RequestParam (required=false) Long id) {
+	public ModelAndView editarReceita(@RequestParam (required=false) Long idItem, @RequestParam (required=false) Long idReceita) {
 		ModelAndView mv = new ModelAndView("receita/form");
 		Receita receita;
 		Item item;
 		
-		if(id==null) {
+		if(idItem==null || idReceita==null) {
 			receita = new Receita();
 			item = new Item();
 			mv.addObject("listaIngrediente", ingredienteService.listaIngredienteCompleto());
 			mv.addObject("listaUnidadeMedida", unidadeMedidaService.listaUnidadeMedidaCompleto());
 		} else {
 			try {
-				receita = receitaService.obterReceita(id);
-				item = new Item();
+				receita = receitaService.obterReceita(idReceita);
+				item = itemService.obterItem(idItem);
 			} catch (Exception e) {
 				receita = new Receita();
 				item = new Item();
@@ -58,7 +58,7 @@ public class ReceitaController {
 		
 		item.setReceita(receita);
 		mv.addObject("receita", receita);
-		mv.addObject("unidadeIngreReceita", item);
+		mv.addObject("item", item);
 		mv.addObject("listaIngrediente", ingredienteService.listaIngredienteCompleto());
 		mv.addObject("listaUnidadeMedida", unidadeMedidaService.listaUnidadeMedidaCompleto());
 		
@@ -73,27 +73,29 @@ public class ReceitaController {
 		
 		if(receita.getId() != null) {
 			mv.addObject("receita", receita);
-			mv.addObject("unidadeIngreReceita", item);
+			mv.addObject("item", item);
 			novo = false;
 		}
 			
 		if(bindingResult.hasErrors()) {
 			mv.addObject("receita", receita);
-			mv.addObject("unidadeIngreReceita", item);
+			mv.addObject("item", item);
 		}
 		
 		receitaService.salvarReceita(receita);
-		itemService.salvarReceitaNoConjunto(item, receita);
-		itemService.salvarUnidadeIngreReceita(item);
+		itemService.salvarReceitaNoItem(item, receita);
+		itemService.salvarItem(item);
 
 		if(novo) {
 			mv.addObject("receita", new Receita());
-			mv.addObject("unidadeIngreReceita", new Item());
+			mv.addObject("item", new Item());
 		} else {
 			mv.addObject("receita", receita);
-			mv.addObject("unidadeIngreReceita", item);
+			mv.addObject("item", item);
 		}
-
+		
+		mv.addObject("listaIngrediente", ingredienteService.listaIngredienteCompleto());
+		mv.addObject("listaUnidadeMedida", unidadeMedidaService.listaUnidadeMedidaCompleto());
 		mv.addObject("mensagem", "Receita salva com sucesso!");
 		return mv;
 	}
@@ -110,19 +112,21 @@ public class ReceitaController {
 	@RequestMapping
 	public ModelAndView listarReceita() {
 		ModelAndView mv = new ModelAndView("receita/listar");
+		mv.addObject("listaItem", itemService.listaItens());
 		mv.addObject("lista", receitaService.listaReceita());
 		return mv;
 	}
 	
 	@RequestMapping(path="/excluir")
-	public ModelAndView excluirIngrediente(@RequestParam Long id, RedirectAttributes redirectAttributes) {
+	public ModelAndView excluirReceita(@RequestParam Long idItem, @RequestParam Long idReceita, RedirectAttributes redirectAttributes) {
 		ModelAndView mv = new ModelAndView("redirect:/receita");
 		
 		try {
-			ingredienteService.excluirIngrediente(id);
-			redirectAttributes.addFlashAttribute("mensagem", "Receita excluída com sucesso!");
+			itemService.excluirItem(idItem);
+			receitaService.excluirReceita(idReceita);
+			redirectAttributes.addFlashAttribute("mensagem", "Drink excluído com sucesso!");
 		} catch (Exception e) {
-			redirectAttributes.addFlashAttribute("mensagem", "Erro ao excluir receita! " + e.getMessage());
+			redirectAttributes.addFlashAttribute("mensagem", "Erro ao excluir drink! " + e.getMessage());
 		}
 		
 		return mv;
