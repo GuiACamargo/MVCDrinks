@@ -46,8 +46,9 @@ public class UnidadeMedidaController {
 	@RequestMapping(method = RequestMethod.POST, path = "/manage")
 	public ModelAndView salvarUnidadeMedida(@Valid UnidadeMedida unidadeMedida, BindingResult bindingResult) {
 		ModelAndView mv = new ModelAndView("unidadeMedida/form");
-		
 		boolean novo = true;
+		Boolean naoTemNoBanco = false;
+		Boolean temNoBanco = false;
 		
 		if(unidadeMedida.getId() != null) {
 			mv.addObject("unidadeMedida", unidadeMedida);
@@ -61,9 +62,13 @@ public class UnidadeMedidaController {
 		
 		try {
 			unidadeMedidaService.salvarUnidadeMedida(unidadeMedida);
+			naoTemNoBanco = true;
 			mv.addObject("mensagem", "Unidade de Medida salva com sucesso!");
+			mv.addObject("naoTemNoBanco", naoTemNoBanco);
 		} catch (Exception e) {
+			temNoBanco = true;
 			mv.addObject("mensagem", "Essa Unidade de Medida já existe no Banco de Dados!");
+			mv.addObject("temNoBanco", temNoBanco);
 		}
 		
 		if(novo) {

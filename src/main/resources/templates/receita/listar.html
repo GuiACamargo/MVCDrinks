@@ -31,16 +31,22 @@
 		Nenhum Drink Encontrado
 	</div>
 
-	<div class="card mt-4" style="background: #323333; max-width:50rem; margin:auto">
-		<div class="card-body">
-			<form method="GET" class="row justify-content-md-center" autocomplete="off">
+	<div class="card mt-4" style="background: #323333; max-width:60rem; margin:auto">
+		<div class="card-body row">
+			<form method="GET" class="row justify-content-md-center col" autocomplete="off">
 				<div class="form-group col">
-			 		<input class="form-control" type="text" list="datalist" name="nome" placeholder="Pesquisa por Nome/Ingrediente" th:value="${nome}"></input>
+			 		<input class="form-control" type="text" list="datalist" name="nome" placeholder="Pesquisa por Nome" th:value="${nome}"></input>
 			 		<datalist id="datalist">
-			 			<option th:each="item : ${listaItem}" th:text="${item.receita.nome}">
+			 			<option th:each="item : ${listaCompleta}" th:text="${item.receita.nome}">
+			 		</datalist>
+			 	</div>			
+				<div class="form-group col">
+			 		<input class="form-control" type="text" list="datalist" name="ingrediente" placeholder="Pesquisa por Ingrediente" th:value="${ingrediente}"></input>
+			 		<datalist id="datalist">
+			 			<option th:each="item : ${listaCompleta}" th:text="${item.ingrediente.nome}">
 			 		</datalist>
 			 	</div>
-			 	<button type="submit" class="btn btn-secondary me-3 col col-lg-2" style="max-height:2.3rem"> Pesquisar </button>
+			 	<button type="submit" class="btn btn-secondary me-3 col col-lg-2" style="max-height:2.3rem; min-width:7rem"> Pesquisar </button>
 			</form>
 		</div>
 	</div>

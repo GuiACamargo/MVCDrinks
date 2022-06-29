@@ -14,8 +14,13 @@
   		</symbol>
     </svg>
 	
-	<div class="alert alert-success d-flex align-items-center mt-4 alert-dismissible fade show" role="alert" th:if="${mensagem != null}">
+	<div class="alert alert-success d-flex align-items-center mt-4 alert-dismissible fade show" role="alert" th:if="${naoTemNoBanco}">
 		<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+		<div th:text="${mensagem}"></div>
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+	<div class="alert alert-warning d-flex align-items-center mt-4 alert-dismissible fade show" role="alert" th:if="${temNoBanco}">
+		<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:" style="float:left"><use xlink:href="#exclamation-triangle-fill"/></svg>
 		<div th:text="${mensagem}"></div>
 		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 	</div>
@@ -33,7 +38,7 @@
 			</h3>
 
 			<form method="POST" th:object="${ingrediente}"
-				th:action="@{/ingrediente/manage}">
+				th:action="@{/ingrediente/manage}" autocomplete="off">
 				<input type="hidden" th:field="*{id}"></input> 
 				<label for="basic-addon1" class="form-label">
 					Nome do Ingrediente

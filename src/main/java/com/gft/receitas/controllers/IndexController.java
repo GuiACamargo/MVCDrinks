@@ -13,25 +13,31 @@ public class IndexController {
 
 	@Autowired
 	ReceitaService receitaService;
-	
-	Boolean primeiraVez = true;
-	
+		
 	@RequestMapping
 	public ModelAndView index() {
 		ModelAndView mv = new ModelAndView("index");
+		
 		return mv;
 	}
 	
 	@RequestMapping(path = "/popular")
 	public ModelAndView popularBanco(RedirectAttributes redirectAttributes) {
 		ModelAndView mv = new ModelAndView("redirect:/");
-		if (primeiraVez) {
-			receitaService.popularBanco();	
-			redirectAttributes.addFlashAttribute("mensagem", "Banco Populado com Sucesso!");
-			primeiraVez = false;
-		} else {
-			redirectAttributes.addFlashAttribute("mensagem", "Banco já foi Populado!");
+		Boolean naoTemNoBanco = false;
+		Boolean temNoBanco = false;
+		
+		try {
+			receitaService.popularBanco();
+			naoTemNoBanco = true;
+			redirectAttributes.addFlashAttribute("mensagem", "Banco Populado com sucesso!");
+			redirectAttributes.addFlashAttribute("naoTemNoBanco", naoTemNoBanco);
+		} catch (Exception e) {
+			temNoBanco = true;
+			redirectAttributes.addFlashAttribute("mensagem", "Erro! Banco de Dados pode já ter sido Populado!");
+			redirectAttributes.addFlashAttribute("temNoBanco", temNoBanco);
 		}
+
 		
 		return mv;
 	}

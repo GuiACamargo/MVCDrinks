@@ -45,7 +45,15 @@ public class ReceitaService {
 		return receita.get();
 	}
 	
-	public List<Receita> listaReceita () {
+	public List<Receita> listaReceita (String nome) {
+		if(nome != null) {
+			return receitaRepository.findByNomeContains(nome);
+		}
+		
+		return listaReceitaCompleta();
+	}
+	
+	public List<Receita> listaReceitaCompleta() {
 		return receitaRepository.findAll();
 	}
 	
@@ -55,22 +63,32 @@ public class ReceitaService {
 	}
 	
 	public void popularBanco() {
+		System.out.println();
 		Receita receita = new Receita();
 		Ingrediente ingrediente = new Ingrediente();
-		Item item = new Item();
 		UnidadeMedida unidadeMedida = new UnidadeMedida();
+		Item item = new Item();
+		
 		receita.setModoDePreparo("Adiciona o Gin e está Pronto");
 		receita.setNome("GinLoco");
 		receita.setTempoDePreparo(2);
+		receita.setAlcoolico(true);
+
 		ingrediente.setNome("Gin");
+		
 		unidadeMedida.setNome("Dose");
+		
 		item.setUnidadeMedida(unidadeMedida);
 		item.setIngrediente(ingrediente);
 		item.setReceita(receita);
+		item.setQuantidade(3);
+		
 		receitaRepository.save(receita);
 		ingredienteRepository.save(ingrediente);
 		unidadeMedidaRepository.save(unidadeMedida);
 		itemRepository.save(item);
+		
+		
 	}
 	
 }

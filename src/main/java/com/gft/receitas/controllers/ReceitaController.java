@@ -68,8 +68,9 @@ public class ReceitaController {
 	@RequestMapping(method = RequestMethod.POST, path = "/manage")
 	public ModelAndView salvarReceita(@Valid Receita receita, Item item, BindingResult bindingResult) {
 		ModelAndView mv = new ModelAndView("receita/form");
-		
 		boolean novo = true;
+		Boolean naoTemNoBanco = false;
+		Boolean temNoBanco = false;
 		
 		if(receita.getId() != null) {
 			mv.addObject("receita", receita);
@@ -87,9 +88,13 @@ public class ReceitaController {
 			receitaService.salvarReceita(receita);
 			itemService.salvarReceitaNoItem(item, receita);
 			itemService.salvarItem(item);
+			naoTemNoBanco = true;
 			mv.addObject("mensagem", "Drink salvo com sucesso!");
+			mv.addObject("naoTemNoBanco", naoTemNoBanco);
 		} catch (Exception e) {
+			temNoBanco = true;
 			mv.addObject("mensagem", "Esse Nome de Drink já existe no Banco de Dados!");
+			mv.addObject("temNoBanco", temNoBanco);
 		}
 	
 
@@ -107,10 +112,11 @@ public class ReceitaController {
 	}
 	
 	@RequestMapping
-	public ModelAndView listarReceita() {
+	public ModelAndView listarReceita(String nome, String ingrediente) {
 		ModelAndView mv = new ModelAndView("receita/listar");
-		mv.addObject("listaItem", itemService.listaItens());
-		mv.addObject("lista", receitaService.listaReceita());
+		mv.addObject("listaItem", itemService.listaItens(nome, ingrediente));
+		mv.addObject("listaCompleta", itemService.listaItensCompletos());
+		mv.addObject("listaIngredientes", ingredienteService.listaIngredienteCompleto());
 		return mv;
 	}
 	

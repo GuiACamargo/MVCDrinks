@@ -45,8 +45,9 @@ public class IngredienteController {
 	@RequestMapping(method = RequestMethod.POST, path = "/manage")
 	public ModelAndView salvarIngrediente(@Valid Ingrediente ingrediente, BindingResult bindingResult) {
 		ModelAndView mv = new ModelAndView("ingrediente/form");
-		
 		boolean novo = true;
+		Boolean naoTemNoBanco = false;
+		Boolean temNoBanco = false;
 		
 		if(ingrediente.getId() != null) {
 			mv.addObject("ingrediente", ingrediente);
@@ -59,9 +60,13 @@ public class IngredienteController {
 		}
 		try {
 			ingredienteService.salvarIngrediente(ingrediente);
+			naoTemNoBanco = true;
 			mv.addObject("mensagem", "Ingrediente salvo com sucesso!");
+			mv.addObject("naoTemNoBanco", naoTemNoBanco);
 		} catch (Exception e) {
+			temNoBanco = true;
 			mv.addObject("mensagem", "Esse Ingrediente já existe no Banco de Dados!");
+			mv.addObject("temNoBanco", temNoBanco);
 		}
 	
 		
