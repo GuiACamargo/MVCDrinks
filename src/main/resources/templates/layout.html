@@ -9,7 +9,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 	<title>Palmirinha Drinks</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 	<link rel="stylesheet" th:href="@{css/style.css}">
-	<link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+	<link rel="icon" type="image/x-icon" th:href="@{images/favicon.ico}">
 </head>
 
 <body>
@@ -34,9 +34,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 				</button>
 				<div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
 					<ul class="navbar-nav me-auto mb-3 mb-lg-0">
-						<li class="nav-item"><a class="nav-link active"
-							aria-current="page" href="#">Drinks</a></li>
-
 						<li class="nav-item dropdown"><a
 							class="nav-link dropdown-toggle" href="#"
 							id="navbarDarkDropdownMenuLink" role="button"
@@ -68,7 +65,10 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 								<li><a class="dropdown-item" th:href="@{/unidadeMedida}">Listar</a></li>
 							</ul></li>
 					</ul>
-					<span class="navbar-text"> <strong>O Melhor Site para Drinks</strong></span>
+					<span class="navbar-text">
+						<a class="btn btn-outline-info me-3" type="button" th:href="@{/}">Login</a>
+						<strong class="align-middle">O Melhor Site para Drinks</strong>
+					</span>
 				</div>
 			</div>
 		</nav>

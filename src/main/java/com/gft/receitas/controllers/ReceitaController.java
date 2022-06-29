@@ -80,11 +80,18 @@ public class ReceitaController {
 		if(bindingResult.hasErrors()) {
 			mv.addObject("receita", receita);
 			mv.addObject("item", item);
+			return mv;
 		}
 		
-		receitaService.salvarReceita(receita);
-		itemService.salvarReceitaNoItem(item, receita);
-		itemService.salvarItem(item);
+		try {
+			receitaService.salvarReceita(receita);
+			itemService.salvarReceitaNoItem(item, receita);
+			itemService.salvarItem(item);
+			mv.addObject("mensagem", "Drink salvo com sucesso!");
+		} catch (Exception e) {
+			mv.addObject("mensagem", "Esse Nome de Drink já existe no Banco de Dados!");
+		}
+	
 
 		if(novo) {
 			mv.addObject("receita", new Receita());
@@ -96,16 +103,6 @@ public class ReceitaController {
 		
 		mv.addObject("listaIngrediente", ingredienteService.listaIngredienteCompleto());
 		mv.addObject("listaUnidadeMedida", unidadeMedidaService.listaUnidadeMedidaCompleto());
-		mv.addObject("mensagem", "Receita salva com sucesso!");
-		return mv;
-	}
-	
-	@RequestMapping(path = "/popular")
-	public ModelAndView popularBanco(@RequestParam Long id) {
-		ModelAndView mv = new ModelAndView("redirect:/ingrediente");
-		
-		receitaService.popularBanco(id);
-		
 		return mv;
 	}
 	
@@ -118,15 +115,21 @@ public class ReceitaController {
 	}
 	
 	@RequestMapping(path="/excluir")
-	public ModelAndView excluirReceita(@RequestParam Long idItem, @RequestParam Long idReceita, RedirectAttributes redirectAttributes) {
+	public ModelAndView excluirReceita(@RequestParam Long idReceita, @RequestParam Long idItem, RedirectAttributes redirectAttributes) {
 		ModelAndView mv = new ModelAndView("redirect:/receita");
+		Boolean temErro = false;
+		Boolean semErro = false;
 		
 		try {
 			itemService.excluirItem(idItem);
-			receitaService.excluirReceita(idReceita);
+			receitaService.excluirReceita(idReceita);		
+			semErro = true;
 			redirectAttributes.addFlashAttribute("mensagem", "Drink excluído com sucesso!");
+			redirectAttributes.addFlashAttribute("semErro", semErro);
 		} catch (Exception e) {
-			redirectAttributes.addFlashAttribute("mensagem", "Erro ao excluir drink! " + e.getMessage());
+			temErro = true;
+			redirectAttributes.addFlashAttribute("mensagem", "Erro ao excluir drink!" + e.getMessage());
+			redirectAttributes.addFlashAttribute("temErro", temErro);
 		}
 		
 		return mv;

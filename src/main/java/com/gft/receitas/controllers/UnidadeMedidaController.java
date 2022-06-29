@@ -59,7 +59,12 @@ public class UnidadeMedidaController {
 			return mv;
 		}
 		
-		unidadeMedidaService.salvarUnidadeMedida(unidadeMedida);
+		try {
+			unidadeMedidaService.salvarUnidadeMedida(unidadeMedida);
+			mv.addObject("mensagem", "Unidade de Medida salva com sucesso!");
+		} catch (Exception e) {
+			mv.addObject("mensagem", "Essa Unidade de Medida já existe no Banco de Dados!");
+		}
 		
 		if(novo) {
 			mv.addObject("unidadeMedida", new UnidadeMedida());
@@ -67,8 +72,6 @@ public class UnidadeMedidaController {
 			mv.addObject("unidadeMedida", unidadeMedida);
 		}
 
-		mv.addObject("mensagem", "Unidade de Medida salva com sucesso!");
-		
 		return mv;
 	}
 	
@@ -84,12 +87,18 @@ public class UnidadeMedidaController {
 	@RequestMapping(path="/excluir")
 	public ModelAndView excluirUnidadeMedida(@RequestParam Long id, RedirectAttributes redirectAttributes) {
 		ModelAndView mv = new ModelAndView("redirect:/unidadeMedida");
+		Boolean temErro = false;
+		Boolean semErro = false;
 		
 		try {
 			unidadeMedidaService.excluirUnidadeMedida(id);
+			semErro = true;
 			redirectAttributes.addFlashAttribute("mensagem", "Unidade de Medida excluída com sucesso!");
+			redirectAttributes.addFlashAttribute("semErro", semErro);
 		} catch (Exception e) {
-			redirectAttributes.addFlashAttribute("mensagem", "Erro ao excluir Unidade de Medida! " + e.getMessage());
+			temErro = true;
+			redirectAttributes.addFlashAttribute("mensagem", "Erro ao excluir Unidade de Medida! Confira se ele não está associado a um Drink");
+			redirectAttributes.addFlashAttribute("temErro", temErro);
 		}
 		
 		return mv;

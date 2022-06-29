@@ -54,16 +54,16 @@ public class ReceitaService {
 		itemRepository.deleteById(id);
 	}
 	
-	public void popularBanco(Long id) {
+	public void popularBanco() {
 		Receita receita = new Receita();
 		Ingrediente ingrediente = new Ingrediente();
 		Item item = new Item();
 		UnidadeMedida unidadeMedida = new UnidadeMedida();
-		receita.setModoDePreparo("wdawdawd");
-		receita.setNome("teste");
+		receita.setModoDePreparo("Adiciona o Gin e está Pronto");
+		receita.setNome("GinLoco");
 		receita.setTempoDePreparo(2);
-		ingrediente.setNome("blabla");
-		unidadeMedida.setNome("blabla");
+		ingrediente.setNome("Gin");
+		unidadeMedida.setNome("Dose");
 		item.setUnidadeMedida(unidadeMedida);
 		item.setIngrediente(ingrediente);
 		item.setReceita(receita);

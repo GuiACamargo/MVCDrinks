@@ -6,15 +6,15 @@
 <div layout:fragment="content">
 	<link rel="stylesheet" href="../css/style.css">
 	<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-	  <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
-	    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
-	  </symbol>
+	  	<symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+	    	<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+	  	</symbol>
     </svg>
 	
-	<div class="alert alert-success d-flex align-items-center mt-4" role="alert" th:if="${mensagem != null}">
-	<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-	  <div th:text="${mensagem}">
-	  </div>
+	<div class="alert alert-success d-flex align-items-center mt-4 alert-dismissible fade show" role="alert" th:if="${mensagem != null}">
+		<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+	  	<div th:text="${mensagem}"></div>
+	  	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 	</div>
 			
 	<div class="card text-bg-dark overflow-auto mt-4 pb-5" style="overflow-x:hidden">
@@ -33,84 +33,82 @@
 
 			<form method="POST"
 				th:action="@{/receita/manage}">
-				<input type="hidden" th:field="${receita.id}"></input> 
+				<input type="hidden" th:field="${receita.id}"></input>
 				<label for="basic-addon1" class="form-label">
 					Nome do Drink
 				</label>
 				<div class="input-group mb-3">
-					<input type="text" class="form-control"
-						aria-label="Nome da Receita"
-						aria-describedby="basic-addon1" th:field="${receita.nome}">
-					<div class="text-danger" th:errors="${receita.nome}"
-						th:if="${#fields.hasErrors('receita.nome')}"></div>
-					</div>
-					<div class="row align-items-center">
-						<div class="col">
-							<label for="basic-addon2" class="form-label">Tempo de Preparo</label>
-							<div class="input-group mb-3">
-								<input type="number" class="form-control"
-									aria-label="Tempo de Preparo" aria-describedby="basic-addon2"
+					<input type="text" class="form-control" aria-label="Nome da Receita" aria-describedby="basic-addon1" th:field="${receita.nome}">
+				</div>
+				<div class="row align-items-center">
+					<div class="col">
+						<label for="basic-addon2" class="form-label">Tempo de Preparo</label>
+						<div class="input-group mb-3">
+							<input type="number" class="form-control" aria-label="Tempo de Preparo" aria-describedby="basic-addon2"
 									th:field="${receita.tempoDePreparo}" maxlength="3" min="1"><span class="input-group-text"
 									id="basic-addon2">minutos</span>
-								<div class="text-danger" th:errors="${receita.tempoDePreparo}"
-									th:if="${#fields.hasErrors('receita.tempoDePreparo')}"></div> 
-		<!-- 							^^^^^^^^^ TIRAR DAQUI PARA NAO FICAR GRUDADO NO INPUT -->
 							</div>
-						</div>
-						<div class="col card mb-2 me-3" style="background:#3b3c3d">
-							<label for="basic-addon2" class="form-label">Alcoólico</label>
-							<div class="pt-2">
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="true" th:field="${receita.alcoolico}">
-									<label class="form-check-label" for="inlineRadio1">Sim, é alcoólico</label>
-								</div>
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="false" th:field="${receita.alcoolico}">
-									<label class="form-check-label" for="inlineRadio2">Não, não é alcoólico</label>
-								</div>
+					</div>
+					<div class="col card mb-2 me-3" style="background:#3b3c3d">
+						<label for="basic-addon2" class="form-label">Alcoólico</label>
+						<div class="pt-2">
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="true" th:field="${receita.alcoolico}">
+								<label class="form-check-label" for="inlineRadio1">Sim, é alcoólico</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="false" th:field="${receita.alcoolico}">
+								<label class="form-check-label" for="inlineRadio2">Não, não é alcoólico</label>
 							</div>
 						</div>
 					</div>
+				</div>
 
-					<div class="mb-3">
-					  	<label for="modoDePreparo" class="form-label">Modo de Preparo</label>
-					  	<textarea class="form-control" id="modoDePreparo" rows="2" th:field="${receita.modoDePreparo}"></textarea>
-					</div>
-					<div class="card mb-3 ps-3 pt-2 pe-3 me-1 ms-1" style="background:#3b3c3d">
-						<div class="row justify-content-center">
-							<div class="col-4">
-								<label for="basic-addon2" class="form-label">
-									Ingredientes
-								</label>
-								<div class="input-group mb-3">
-									<select class="form-select" th:field="${item.ingrediente}">
-										<option value="" selected hidden>Escolha</option>
-						 				<option th:each="ingrediente: ${listaIngrediente}" th:value="${ingrediente.id}" th:text="${ingrediente.nome}"></option>
-						 			</select>
-								</div>
+				<div class="mb-3">
+					  <label for="modoDePreparo" class="form-label">Modo de Preparo</label>
+					  <textarea class="form-control" id="modoDePreparo" rows="2" th:field="${receita.modoDePreparo}"></textarea>
+				</div>
+				<div class="card mb-3 ps-3 pt-2 pe-3 me-1 ms-1" style="background:#3b3c3d">
+					<div class="row justify-content-center">
+						<div class="col-4">
+							<label for="basic-addon2" class="form-label">
+								Ingredientes
+							</label>
+							<div class="input-group mb-3">
+								<select class="form-select" th:field="${item.ingrediente}">
+									<option value="" selected hidden>Escolha</option>
+						 			<option th:each="ingrediente: ${listaIngrediente}" th:value="${ingrediente.id}" th:text="${ingrediente.nome}"></option>
+						 		</select>
 							</div>
-							<div class="col-4">	
-								<label for="basic-addon2" class="form-label">
-									Unidade de Medida
-								</label>					
-								<div class="input-group mb-3">
-									<select class="form-select" th:field="${item.unidadeMedida}">
-										<option value="" selected hidden>Escolha</option>
-						 				<option th:each="unidadeMedida: ${listaUnidadeMedida}" th:value="${unidadeMedida.id}" th:text="${unidadeMedida.nome}"></option>
-						 			</select>
-								</div>
+						</div>
+						<div class="col-4">	
+							<label for="basic-addon2" class="form-label">
+								Unidade de Medida
+							</label>					
+							<div class="input-group mb-3">
+								<select class="form-select" th:field="${item.unidadeMedida}">
+									<option value="" selected hidden>Escolha</option>
+						 			<option th:each="unidadeMedida: ${listaUnidadeMedida}" th:value="${unidadeMedida.id}" th:text="${unidadeMedida.nome}"></option>
+						 		</select>
 							</div>
-							<div class="col-4">	
-								<label for="basic-addon2" class="form-label">
-									Quantidade
-								</label>					
-								<div class="input-group mb-3">
-									<input type="number" class="form-control" aria-describedby="addon-wrapping" min="1" th:field="${item.quantidade}">
-								</div>
+						</div>
+						<div class="col-4">	
+							<label for="basic-addon2" class="form-label">
+								Quantidade
+							</label>					
+							<div class="input-group mb-3">
+								<input type="number" class="form-control" aria-describedby="addon-wrapping" min="1" th:field="${item.quantidade}">
 							</div>
 						</div>
 					</div>
-					<button type="submit" class="btn btn-primary">Salvar Drink</button>
+				</div>
+<!-- 				<div class="alert alert-warning" role="alert" th:if="${#fields.hasAnyErrors()}"> -->
+<!-- 					<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:" style="float:left"><use xlink:href="#exclamation-triangle-fill"/></svg> -->
+<!-- 					<ul> -->
+<!--         				<li th:each="err : ${#fields.errors()}" th:text="${err}" /> -->
+<!--     				</ul>	 -->
+<!-- 				</div>  -->
+				<button type="submit" class="btn btn-primary">Salvar Drink</button>
 			</form>
 		</div>
 	</div>

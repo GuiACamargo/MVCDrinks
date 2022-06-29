@@ -13,17 +13,15 @@
 	    </symbol>
 	</svg>
 	
-	<div class="alert alert-success d-flex align-items-center mt-4" role="alert" th:if="${mensagem == 'Ingrediente excluído com sucesso!'}">
+	<div class="alert alert-success d-flex align-items-center mt-4 alert-dismissible fade show" role="alert" th:if="${semErro}">
 	    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-	    <div th:text="${mensagem}">
-	    </div>
+	    <div th:text="${mensagem}"></div>
+	  	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 	</div>
-	
-	<div class="alert alert-danger d-flex align-items-center" role="alert" th:if="${mensagem == 'Erro ao excluir ingrediente!'}">
-	
+	<div class="alert alert-danger d-flex align-items-center mt-4 alert-dismissible fade show" role="alert" th:if="${temErro}">
 	    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-	    <div th:text="${mensagem}">
-	    </div>
+	    <div th:text="${mensagem}"></div>
+	  	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 	</div>
 	
 	<div class="alert alert-primary mt-3" th:if="${#lists.isEmpty(lista)}">
@@ -77,12 +75,35 @@
 									</svg> 
 									Editar
 								</a>
-								<a class="btn btn-danger btn-sm" th:href="@{/ingrediente/excluir(id=${ingrediente.id})}" onclick="return confirm('Você realmente deseja excluir esse ingrediente?')">
+								<a class="btn btn-danger btn-sm" id="botaoExcluir" th:attr="onclick=|passaLink('${ingrediente.id}')|" data-bs-toggle="modal" data-bs-target="#exampleModal">
 									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16" style="vertical-align: -0.125em;">
   									<path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
 									</svg>
 									Excluir
 								</a>
+								<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							 		<div class="modal-dialog">
+							    		<div class="modal-content" style="background:#212529">
+							      			<div class="modal-header" style="border-color: #323539">
+							        			<h5 class="modal-title" id="exampleModalLabel">Excluir Ingrediente</h5>
+							        			<button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+							      			</div>
+							      			<div class="modal-body" style="border-color: #323539">
+							        			<h6>Deseja realmente excluir esse Ingrediente?</h6><br>
+							        			<p>A exclusão de um Ingrediente que esteja em um drink <strong>NÃO</strong> é permitida!</p>
+							      			</div>
+							      			<div class="modal-footer" style="border-color: #323539">
+							       				<button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancelar</button>
+							        			<a type="button" class="btn btn-danger" id="botaoConfirmar">
+							        				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16" style="vertical-align: -0.125em;">
+  														<path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
+													</svg>
+							        				Excluir
+							        			</a>
+							      			</div>
+							    		</div>
+							  		</div>
+								</div>
 							</td>
 						</tr>
 					</tbody>
@@ -90,5 +111,12 @@
 			</div>
 		</div>
 	</div>
+	<script>
+		var botaoConfirmar = document.getElementById("botaoConfirmar")
+	
+		function passaLink(link) {
+			botaoConfirmar.href="/ingrediente/excluir?id=" + link;
+		}
+	</script>
 </div>
 </html>

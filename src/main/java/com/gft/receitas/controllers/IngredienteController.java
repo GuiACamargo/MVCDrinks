@@ -57,8 +57,13 @@ public class IngredienteController {
 			mv.addObject("ingrediente", ingrediente);
 			return mv;
 		}
-		
-		ingredienteService.salvarIngrediente(ingrediente);
+		try {
+			ingredienteService.salvarIngrediente(ingrediente);
+			mv.addObject("mensagem", "Ingrediente salvo com sucesso!");
+		} catch (Exception e) {
+			mv.addObject("mensagem", "Esse Ingrediente já existe no Banco de Dados!");
+		}
+	
 		
 		if(novo) {
 			mv.addObject("ingrediente", new Ingrediente());
@@ -66,8 +71,6 @@ public class IngredienteController {
 			mv.addObject("ingrediente", ingrediente);
 		}
 
-		mv.addObject("mensagem", "Ingrediente salvo com sucesso!");
-		
 		return mv;
 	}
 	
@@ -83,12 +86,18 @@ public class IngredienteController {
 	@RequestMapping(path="/excluir")
 	public ModelAndView excluirIngrediente(@RequestParam Long id, RedirectAttributes redirectAttributes) {
 		ModelAndView mv = new ModelAndView("redirect:/ingrediente");
+		Boolean temErro = false;
+		Boolean semErro = false;
 		
 		try {
 			ingredienteService.excluirIngrediente(id);
+			semErro = true;
 			redirectAttributes.addFlashAttribute("mensagem", "Ingrediente excluído com sucesso!");
+			redirectAttributes.addFlashAttribute("semErro", semErro);
 		} catch (Exception e) {
-			redirectAttributes.addFlashAttribute("mensagem", "Erro ao excluir ingrediente! " + e.getMessage());
+			temErro = true;
+			redirectAttributes.addFlashAttribute("mensagem", "Erro ao excluir ingrediente! Confira se ele não está associado a um Drink");
+			redirectAttributes.addFlashAttribute("temErro", temErro);		
 		}
 		
 		return mv;

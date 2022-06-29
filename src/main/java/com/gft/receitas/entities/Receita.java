@@ -2,20 +2,33 @@ package com.gft.receitas.entities;
 
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 @Entity
 public class Receita {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@NotBlank (message = "Nome do Drink não pode ser vazio!")
+	@Column(unique = true)
 	private String nome;
+	@Min(value = 1, message = "Tempo de Preparo não deveria ser menor que 1 minuto!")
+    @Max(value = 999, message = "Tempo de Preparo não deveria ser maior que 999 minutos!")
+	@Positive(message = "Tempo de Preparo deve ser positivo!")
 	private int tempoDePreparo;
+	@NotBlank (message = "Modo de Preparo não pode ser vazio!")
 	private String modoDePreparo;
+	@NotNull(message="Escolha o tipo do Drink!")
 	private Boolean alcoolico;
 	@OneToMany(mappedBy = "receita")
 	private Set<Item> item;
