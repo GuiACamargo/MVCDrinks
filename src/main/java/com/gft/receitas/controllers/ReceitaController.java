@@ -66,7 +66,6 @@ public class ReceitaController {
 			mv.addObject("receita", receita);
 			return mv;
 		}
-		
 		try {
 			receitaService.salvarReceita(receita);
 			naoTemNoBanco = true;

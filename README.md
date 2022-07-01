@@ -29,7 +29,17 @@ spring.jpa.hibernate.ddl-auto=update
 ```
 No lugar de ambos os "**root**" substituia o primeiro pelo seu username e o segundo pela senha do banco de dados
 (*e outros que julgue necessário*)
-do MySQL Workbench 8 para a utilização e integração correta do banco de dados.
+do MySQL Workbench 8 para a utilização e integração correta do banco de dados. Para iniciar o projeto, aperte com o botão direito no projeto, e então, **Run As > Spring Boot App**.
+Usuário e Admins Iniciais:
+```
+USUÁRIO
+Usuário: usuario@gft.com
+Senha: Gft@1234
+---------------------------
+ADMIN:
+Usuário: admin@gft.com
+Senha: Gft@1234
+```
   
 
 

@@ -51,7 +51,8 @@ public class ReceitaService {
 		for(int i = 0; i < partes.length; i++) {
 			if (i%3 == 0) {	
 				item.setReceita(receita);
-				int numero = Integer.parseInt(partes[i]);
+				String numeroTransformar = partes[i].trim();
+				int numero = Integer.parseInt(numeroTransformar);
 				item.setQuantidade(numero);
 				if (receita.getInfoFormatado() != null) {
 					receita.setInfoFormatado(receita.getInfoFormatado() + capitalize(partes[i]) + " ");
