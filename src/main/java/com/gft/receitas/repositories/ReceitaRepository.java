@@ -10,6 +10,8 @@ import com.gft.receitas.entities.Receita;
 
 @Repository
 public interface ReceitaRepository extends JpaRepository<Receita, Long> {
+	
+	List<Receita> findByItemIngredienteNomeContains(String ingrediente);
 
 	Optional<Receita> findById(Long id);
 	List<Receita> findByNomeContains(String nome);

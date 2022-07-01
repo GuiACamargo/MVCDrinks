@@ -1,6 +1,5 @@
 package com.gft.receitas.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,26 +36,6 @@ public class ItemService {
 		} else {
 			return item.get();
 		}
-	}
-	
-	public List<Item> listaItens (String nome, String ingrediente) {
-		if(nome == null) {
-			if (ingrediente != null) {
-				return itemRepository.findByIngredienteNomeContains(ingrediente);
-			} else {
-				return listaItensCompletos();
-			}
-		} else {
-			if (ingrediente != null) {
-				List<Item> listaTemIngrediente = itemRepository.findByIngredienteNomeContains(ingrediente);
-				List<Item> listaTemNome = itemRepository.findByReceitaNomeContains(nome);
-				List<Item> listaCerta = new ArrayList<Item>(listaTemIngrediente);
-				listaCerta.retainAll(listaTemNome);
-				return listaCerta;
-			} else {
-				return itemRepository.findByReceitaNomeContains(nome);
-			}
-		}		
 	}
 	
 	public List<Item> listaItensCompletos() {

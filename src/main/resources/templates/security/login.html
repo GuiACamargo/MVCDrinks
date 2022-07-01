@@ -58,5 +58,48 @@
 			</form>
 		</div> 
 	</div>
+	<div class="card text-bg-dark mt-4 mx-auto mv-4" style="width:35rem" >
+		<div class="card-body">
+			<div id="carousel" class="carousel slide" data-bs-ride="carousel">
+				<div class="carousel-indicators">
+				    <button type="button" data-bs-target="#carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+				    <button type="button" data-bs-target="#carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+				    <button type="button" data-bs-target="#carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+				</div>
+				<div class="carousel-inner">
+				    <div class="carousel-item active" data-bs-interval="5000">
+				      	<img th:src="@{images/negroni.jpeg}" class="d-block w-100" alt="Negroni">
+				      	<div class="carousel-caption d-none d-md-block">
+				        	<h5>Negroni</h5>
+				        	<p>Um clássico, feito com Gin, Campari, Vermute e Laranja (e gelo)</p>
+				      	</div>
+				    </div>
+				    <div class="carousel-item" data-bs-interval="5000">
+				      	<img th:src="@{images/limonada.jpg}" class="d-block w-100" alt="Limonada">
+				      	<div class="carousel-caption d-none d-md-block">
+				        	<h5 style="color:rgb(0, 0, 0)">Limonada</h5>
+				        	<p style="color:rgb(0, 0, 0)">Refrescante, feito com Limão, Água, Açucar ou Adoçante (e gelo)</p>
+				      	</div>
+				    </div>
+				    <div class="carousel-item" data-bs-interval="5000">
+				      	<img th:src="@{images/margarita.jpg}" class="d-block w-100" alt="...">
+				      	<div class="carousel-caption d-none d-md-block">
+				        	<h5 style="color:rgb(0, 0, 0)">Margarita</h5>
+				        	<p style="color:rgb(0, 0, 0)">Muchacho! feito com Limão, Tequila, Sal Marinho, Cointreau (e gelo)</p>
+				      	</div>
+				    </div>
+				</div>
+				<button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Previous</span>
+				</button>
+				<button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+				    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+				    <span class="visually-hidden">Next</span>
+				</button>
+			</div>
+		</div>
+		
+	</div>
 </div>
 </html>

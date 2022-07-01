@@ -14,6 +14,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Receita {
@@ -28,6 +29,7 @@ public class Receita {
 	@Positive(message = "Tempo de Preparo deve ser positivo!")
 	private int tempoDePreparo;
 	@NotBlank (message = "Modo de Preparo não pode ser vazio!")
+	@Size(min = 1, max = 2000, message = "Modo de Preparo é no mínimo 1 caracter e no máximo 2000 caracteres")
 	private String modoDePreparo;
 	@NotNull(message="Escolha o tipo do Drink!")
 	private Boolean alcoolico;
@@ -35,6 +37,8 @@ public class Receita {
 	private List<Item> item;
 	@NotBlank (message = "Itens não podem ser vazios!")
 	private String info;
+	@Column(name="formatado")
+	private String infoFormatado;
 		
 	public Receita() {
 	}
@@ -102,5 +106,12 @@ public class Receita {
 	public void setInfo(String info) {
 		this.info = info;
 	}
-	
+
+	public String getInfoFormatado() {
+		return infoFormatado;
+	}
+
+	public void setInfoFormatado(String infoFormatado) {
+		this.infoFormatado = infoFormatado;
+	}
 }

@@ -95,20 +95,14 @@
 				</div>
 				<div class="card mb-3 ps-3 pt-3 pe-3 me-1 ms-1" style="background:#3b3c3d">
 					<div class="form-floating mb-3">
-  						<textarea class="form-control text-bg-dark" placeholder="Ingrediente;UnidadeDeMedida;Quantidade" id="floatingTextarea2" style="height: 100px" th:field="*{info}"></textarea>
-  						<label for="floatingTextarea2">Itens (Ingrediente;UnidadeDeMedida;Quantidade)</label>
+  						<textarea class="form-control text-bg-dark" placeholder="Quantidade;UnidadeDeMedida;Ingrediente" id="floatingTextarea2" style="height: 100px" th:field="*{info}"></textarea>
+  						<label for="floatingTextarea2">Itens (Quantidade;UnidadeDeMedida;Ingrediente)</label>
 					</div>
 					<div class="alert alert-warning" role="alert" th:if="${#fields.hasErrors('info')}">
 						<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:" style="float:left"><use xlink:href="#exclamation-triangle-fill"/></svg>
 						<div th:errors="*{info}" ></div>
 					</div>
 				</div>
-<!-- 				<div class="alert alert-warning" role="alert" th:if="${#fields.hasAnyErrors()}"> -->
-<!-- 					<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:" style="float:left"><use xlink:href="#exclamation-triangle-fill"/></svg> -->
-<!-- 					<ul> -->
-<!--         				<li th:each="err : ${#fields.errors()}" th:text="${err}" /> -->
-<!--     				</ul>	 -->
-<!-- 				</div>  -->
 				<button type="submit" class="btn btn-primary">Salvar Drink</button>
 			</form>
 		</div>

@@ -15,8 +15,16 @@ public class IngredienteService {
 	@Autowired
 	private IngredienteRepository ingredienteRepository;
 	
+	public static String capitalize(String str) {
+	    if(str == null || str.isEmpty()) {
+	        return str;
+	    }
+	    str = str.toLowerCase().trim();
+	    return str.substring(0, 1).toUpperCase() + str.substring(1);
+	}
 	
 	public Ingrediente salvarIngrediente (Ingrediente ingrediente) {
+		ingrediente.setNome(capitalize(ingrediente.getNome()));
 		return ingredienteRepository.save(ingrediente);
 	}
 		

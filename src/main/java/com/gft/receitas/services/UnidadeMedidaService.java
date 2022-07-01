@@ -15,8 +15,16 @@ public class UnidadeMedidaService {
 	@Autowired
 	private UnidadeMedidaRepository unidadeMedidaRepository;
 	
+	public static String capitalize(String str) {
+	    if(str == null || str.isEmpty()) {
+	        return str;
+	    }
+	    str = str.toLowerCase().trim();
+	    return str.substring(0, 1).toUpperCase() + str.substring(1);
+	}
 	
 	public UnidadeMedida salvarUnidadeMedida (UnidadeMedida unidadeMedida) {
+		unidadeMedida.setNome(capitalize(unidadeMedida.getNome()));
 		return unidadeMedidaRepository.save(unidadeMedida);
 	}
 	

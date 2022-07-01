@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.gft.receitas.services.SecurityDatabaseService;
@@ -45,8 +46,10 @@ public class WebSecurityConfig {
 	            .antMatchers("/ingrediente").hasAnyRole("user","admin")
 	            .antMatchers("/unidadeMedida").hasAnyRole("user","admin")
 	            .antMatchers("/css/**").permitAll()
+	            .antMatchers("/images/**").permitAll()
 	            .anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll()
-	            .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login");
+	            .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")
+	            .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler());
 	    
 	    http.headers().frameOptions().sameOrigin();
 	    
@@ -54,7 +57,12 @@ public class WebSecurityConfig {
 	}
 	
 	@Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
+    }
+	
+	@Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/images/**");
+        return (web) -> web.ignoring().antMatchers("/css/**");
     }
 }

@@ -46,6 +46,7 @@ public class ReceitaController {
 		}
 		
 		mv.addObject("receita", receita);
+		
 		return mv;
 	}
 	
@@ -66,8 +67,6 @@ public class ReceitaController {
 			return mv;
 		}
 		
-		receitaService.salvarReceita(receita);
-
 		try {
 			receitaService.salvarReceita(receita);
 			naoTemNoBanco = true;
@@ -92,10 +91,10 @@ public class ReceitaController {
 	@RequestMapping
 	public ModelAndView listarReceita(String nome, String ingrediente) {
 		ModelAndView mv = new ModelAndView("receita/listar");
-		mv.addObject("listaItem", itemService.listaItens(nome, ingrediente));
 		mv.addObject("listaCompleta", itemService.listaItensCompletos());
 		mv.addObject("listaIngredientes", ingredienteService.listaIngredienteCompleto());
-		mv.addObject("listaReceita", receitaService.listaReceitaCompleta());
+		mv.addObject("listaReceita", receitaService.listaPesquisa(nome, ingrediente));
+		mv.addObject("listaReceitaCompleta", receitaService.listaReceitaCompleta());
 		return mv;
 	}
 	
