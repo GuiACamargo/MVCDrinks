@@ -2,7 +2,6 @@ package com.gft.receitas.entities;
 
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,10 +16,10 @@ public class Ingrediente {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	@NotBlank (message = "Não pode ser vazio!")
-	@Column(unique = true)
+	//@Column(unique = true)
 	private String nome;
 	@OneToMany(mappedBy = "ingrediente")
-	List<Item> item;
+	public List<Item> item;
 
 	public Ingrediente() {
 

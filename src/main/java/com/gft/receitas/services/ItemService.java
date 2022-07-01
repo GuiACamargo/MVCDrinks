@@ -32,7 +32,11 @@ public class ItemService {
 			throw new Exception ("Item não encontrada!");
 		}
 		
-		return item.get();
+		if (item.isPresent()) {
+			return item.get();
+		} else {
+			return item.get();
+		}
 	}
 	
 	public List<Item> listaItens (String nome, String ingrediente) {

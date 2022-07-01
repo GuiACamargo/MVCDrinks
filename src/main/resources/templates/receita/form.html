@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout.html}">
 <meta charset="UTF-8">
@@ -40,74 +41,66 @@
 			</h3>
 
 			<form method="POST"
-				th:action="@{/receita/manage}" autocomplete="off">
+				th:action="@{/receita/manage}" autocomplete="off" th:object="${receita}">
 				<input type="hidden" th:field="${receita.id}"></input>
 				<label for="basic-addon1" class="form-label">
 					Nome do Drink
 				</label>
 				<div class="input-group mb-3">
-					<input type="text" class="form-control" aria-label="Nome da Receita" aria-describedby="basic-addon1" th:field="${receita.nome}">
+					<input type="text" class="form-control" aria-label="Nome da Receita" aria-describedby="basic-addon1" th:field="*{nome}">
+				</div>
+				<div class="alert alert-warning" role="alert" th:if="${#fields.hasErrors('nome')}">
+					<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:" style="float:left"><use xlink:href="#exclamation-triangle-fill"/></svg>
+					<div th:errors="*{nome}" ></div>
 				</div>
 				<div class="row align-items-center">
 					<div class="col">
 						<label for="basic-addon2" class="form-label">Tempo de Preparo (Entre 1 a 999 minutos)</label>
 						<div class="input-group mb-3">
 							<input type="number" class="form-control" aria-label="Tempo de Preparo" aria-describedby="basic-addon2"
-									th:field="${receita.tempoDePreparo}" maxlength="3" min="1"><span class="input-group-text"
+									th:field="*{tempoDePreparo}" maxlength="3" min="1"><span class="input-group-text"
 									id="basic-addon2">minutos</span>
-							</div>
+						</div>
+						<div class="alert alert-warning" role="alert" th:if="${#fields.hasErrors('tempoDePreparo')}">
+							<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:" style="float:left"><use xlink:href="#exclamation-triangle-fill"/></svg>
+							<div th:errors="*{tempoDePreparo}" ></div>
+						</div>
 					</div>
 					<div class="col card mb-2 me-3" style="background:#3b3c3d">
 						<label for="basic-addon2" class="form-label">Alcoólico</label>
 						<div class="pt-2">
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="true" th:field="${receita.alcoolico}">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="true" th:field="*{alcoolico}">
 								<label class="form-check-label" for="inlineRadio1">Sim, é alcoólico</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="false" th:field="${receita.alcoolico}">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="false" th:field="*{alcoolico}">
 								<label class="form-check-label" for="inlineRadio2">Não, não é alcoólico</label>
 							</div>
+						</div>
+						<div class="alert alert-warning" role="alert" th:if="${#fields.hasErrors('alcoolico')}">
+							<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:" style="float:left"><use xlink:href="#exclamation-triangle-fill"/></svg>
+							<div th:errors="*{alcoolico}" ></div>
 						</div>
 					</div>
 				</div>
 
 				<div class="mb-3">
 					  <label for="modoDePreparo" class="form-label">Modo de Preparo (Não utilize Enter/Quebra de Linha)</label>
-					  <textarea class="form-control" id="modoDePreparo" rows="2" th:field="${receita.modoDePreparo}"></textarea>
+					  <textarea class="form-control" id="modoDePreparo" rows="2" th:field="*{modoDePreparo}"></textarea>
 				</div>
-				<div class="card mb-3 ps-3 pt-2 pe-3 me-1 ms-1" style="background:#3b3c3d">
-					<div class="row justify-content-center">
-						<div class="col-4">
-							<label for="basic-addon2" class="form-label">
-								Ingredientes
-							</label>
-							<div class="input-group mb-3">
-								<select class="form-select" th:field="${item.ingrediente}">
-									<option value="" selected hidden>Escolha</option>
-						 			<option th:each="ingrediente: ${listaIngrediente}" th:value="${ingrediente.id}" th:text="${ingrediente.nome}"></option>
-						 		</select>
-							</div>
-						</div>
-						<div class="col-4">	
-							<label for="basic-addon2" class="form-label">
-								Unidade de Medida
-							</label>					
-							<div class="input-group mb-3">
-								<select class="form-select" th:field="${item.unidadeMedida}">
-									<option value="" selected hidden>Escolha</option>
-						 			<option th:each="unidadeMedida: ${listaUnidadeMedida}" th:value="${unidadeMedida.id}" th:text="${unidadeMedida.nome}"></option>
-						 		</select>
-							</div>
-						</div>
-						<div class="col-4">	
-							<label for="basic-addon2" class="form-label">
-								Quantidade
-							</label>					
-							<div class="input-group mb-3">
-								<input type="number" class="form-control" aria-describedby="addon-wrapping" min="1" th:field="${item.quantidade}">
-							</div>
-						</div>
+				<div class="alert alert-warning" role="alert" th:if="${#fields.hasErrors('modoDePreparo')}">
+					<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:" style="float:left"><use xlink:href="#exclamation-triangle-fill"/></svg>
+					<div th:errors="*{modoDePreparo}" ></div>
+				</div>
+				<div class="card mb-3 ps-3 pt-3 pe-3 me-1 ms-1" style="background:#3b3c3d">
+					<div class="form-floating mb-3">
+  						<textarea class="form-control text-bg-dark" placeholder="Ingrediente;UnidadeDeMedida;Quantidade" id="floatingTextarea2" style="height: 100px" th:field="*{info}"></textarea>
+  						<label for="floatingTextarea2">Itens (Ingrediente;UnidadeDeMedida;Quantidade)</label>
+					</div>
+					<div class="alert alert-warning" role="alert" th:if="${#fields.hasErrors('info')}">
+						<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:" style="float:left"><use xlink:href="#exclamation-triangle-fill"/></svg>
+						<div th:errors="*{info}" ></div>
 					</div>
 				</div>
 <!-- 				<div class="alert alert-warning" role="alert" th:if="${#fields.hasAnyErrors()}"> -->

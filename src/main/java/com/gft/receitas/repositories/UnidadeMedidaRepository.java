@@ -10,6 +10,8 @@ import com.gft.receitas.entities.UnidadeMedida;
 @Repository
 public interface UnidadeMedidaRepository extends JpaRepository<UnidadeMedida, Long> {
 	
+	UnidadeMedida findByNome(String nome);
+	
 	List<UnidadeMedida> findByNomeContains(String nome);
 
 }

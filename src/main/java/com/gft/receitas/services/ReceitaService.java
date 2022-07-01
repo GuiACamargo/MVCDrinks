@@ -29,10 +29,49 @@ public class ReceitaService {
 	
 	@Autowired
 	private ItemRepository itemRepository;
-	
-	
+
+	// i % 3 trim()
+	// resto 0 -> ingrediente
+	// resto 1 -> unidade de Medida
+	// resto 2 -> quantidade
 	public Receita salvarReceita (Receita receita) {
-		return receitaRepository.save(receita);
+		receitaRepository.save(receita);
+		String[] partes = receita.getInfo().split(";");
+		Item item = new Item();
+		//Boolean primeiraVez = true;
+
+		for(int i = 0; i < partes.length; i++) {
+			if (i%3 == 0) {
+				
+				item.setReceita(receita);
+				
+				if (ingredienteRepository.findByNome(partes[i]) != null) {
+					item.setIngrediente(ingredienteRepository.findByNome(partes[i]));
+				} else {
+					Ingrediente ingrediente = new Ingrediente();
+					ingrediente.setNome(partes[i]);
+					ingredienteRepository.save(ingrediente);
+					item.setIngrediente(ingrediente);		
+				}
+			} else if (i%3 == 1) {
+				if(unidadeMedidaRepository.findByNome(partes[i]) != null) {
+					item.setUnidadeMedida(unidadeMedidaRepository.findByNome(partes[i]));
+				} else {
+					UnidadeMedida unidadeMedida = new UnidadeMedida();
+					unidadeMedida.setNome((partes[i]));
+					unidadeMedidaRepository.save(unidadeMedida);
+					item.setUnidadeMedida(unidadeMedida);
+				}
+			} else if (i%3 == 2) {
+				int numero = Integer.parseInt(partes[i]);
+				item.setQuantidade(numero);
+				itemRepository.save(item);
+				receitaRepository.save(receita);
+				item = new Item();
+			}
+		}
+		
+		return null;
 	}
 	
 	public Receita obterReceita (Long id) throws Exception {
@@ -52,7 +91,7 @@ public class ReceitaService {
 		
 		return listaReceitaCompleta();
 	}
-	
+		
 	public List<Receita> listaReceitaCompleta() {
 		return receitaRepository.findAll();
 	}
@@ -65,29 +104,15 @@ public class ReceitaService {
 	public void popularBanco() {
 		System.out.println();
 		Receita receita = new Receita();
-		Ingrediente ingrediente = new Ingrediente();
-		UnidadeMedida unidadeMedida = new UnidadeMedida();
-		Item item = new Item();
 		
 		receita.setModoDePreparo("Adiciona o Gin e está Pronto");
 		receita.setNome("GinLoco");
 		receita.setTempoDePreparo(2);
 		receita.setAlcoolico(true);
+		receita.setInfo("Gin;Dose;3;Coca;MiliLitros;150;Vodka;Dose;1");
+		
+		salvarReceita(receita);
 
-		ingrediente.setNome("Gin");
-		
-		unidadeMedida.setNome("Dose");
-		
-		item.setUnidadeMedida(unidadeMedida);
-		item.setIngrediente(ingrediente);
-		item.setReceita(receita);
-		item.setQuantidade(3);
-		
-		receitaRepository.save(receita);
-		ingredienteRepository.save(ingrediente);
-		unidadeMedidaRepository.save(unidadeMedida);
-		itemRepository.save(item);
-		
 		
 	}
 	

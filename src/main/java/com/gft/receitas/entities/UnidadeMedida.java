@@ -1,6 +1,5 @@
 package com.gft.receitas.entities;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +13,7 @@ public class UnidadeMedida {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(unique = true)
+	//@Column(unique = true)
 	@NotBlank (message = "Nome da Unidade de Medida não pode ser vazio!")
 	private String nome;
 

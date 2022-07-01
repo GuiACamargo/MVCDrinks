@@ -1,7 +1,8 @@
 package com.gft.receitas.entities;
 
-import java.util.Set;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,13 +31,15 @@ public class Receita {
 	private String modoDePreparo;
 	@NotNull(message="Escolha o tipo do Drink!")
 	private Boolean alcoolico;
-	@OneToMany(mappedBy = "receita")
-	private Set<Item> item;
+	@OneToMany(cascade = CascadeType.REMOVE ,mappedBy = "receita")
+	private List<Item> item;
+	@NotBlank (message = "Itens não podem ser vazios!")
+	private String info;
 		
 	public Receita() {
 	}
 
-	public Receita(String nome, int tempoDePreparo, String modoDePreparo, boolean alcoolico, Set<Item> item) {
+	public Receita(String nome, int tempoDePreparo, String modoDePreparo, boolean alcoolico, List<Item> item) {
 		this.nome = nome;
 		this.tempoDePreparo = tempoDePreparo;
 		this.modoDePreparo = modoDePreparo;
@@ -84,11 +87,20 @@ public class Receita {
 		this.alcoolico = alcoolico;
 	}
 
-	public Set<Item> getItem() {
+	public List<Item> getItem() {
 		return item;
 	}
 
-	public void setItem(Set<Item> item) {
+	public void setItem(List<Item> item) {
 		this.item = item;
-	}	
+	}
+
+	public String getInfo() {
+		return info;
+	}
+
+	public void setInfo(String info) {
+		this.info = info;
+	}
+	
 }

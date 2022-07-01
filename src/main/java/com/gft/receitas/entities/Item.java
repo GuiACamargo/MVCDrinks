@@ -6,10 +6,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 
 @Entity
 public class Item {
@@ -20,21 +16,16 @@ public class Item {
 	
 	@ManyToOne
 	@JoinColumn(name = "receitas_id")
-	Receita receita;
+	public Receita receita;
 	
 	@ManyToOne
 	@JoinColumn(name = "ingredientes_id")
-	@NotNull(message="Escolha um ingrediente!")
-	Ingrediente ingrediente;
+	public Ingrediente ingrediente;
 	
 	@ManyToOne
-	@NotNull(message="Escolha uma unidade de medida!")
-	UnidadeMedida unidadeMedida;
+	public UnidadeMedida unidadeMedida;
 	
-	@Min(value = 1, message = "Quantidade não deveria ser menor que 1!")
-    @Max(value = 999, message = "Quantidade não deveria ser maior que 999!")
-	@Positive(message = "Quantidade deve ser positivo!")
-	int quantidade;
+	public int quantidade;
 	
 	public Item() {
 	}

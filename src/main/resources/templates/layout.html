@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html 
 xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
@@ -40,7 +41,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 							data-bs-toggle="dropdown" aria-expanded="false"> Drinks </a>
 							<ul class="dropdown-menu dropdown-menu-dark"
 								aria-labelledby="navbarDarkDropdownMenuLink">
-								<li><a class="dropdown-item" th:href="@{/receita/manage}">Cadastrar</a></li>
+								<li sec:authorize="hasRole('admin')"><a class="dropdown-item" th:href="@{/receita/manage}">Cadastrar (admin)</a></li>
 								<li><a class="dropdown-item" th:href="@{/receita}">Listar</a></li>
 							</ul></li>
 
@@ -51,7 +52,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 						</a>
 							<ul class="dropdown-menu dropdown-menu-dark"
 								aria-labelledby="navbarDarkDropdownMenuLink">
-								<li><a class="dropdown-item" th:href="@{/ingrediente/manage}">Cadastrar</a></li>
+								<li sec:authorize="hasRole('admin')"><a class="dropdown-item" th:href="@{/ingrediente/manage}">Cadastrar (admin)</a></li>
 								<li><a class="dropdown-item" th:href="@{/ingrediente}">Listar</a></li>
 							</ul></li>
 
@@ -61,17 +62,23 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 							data-bs-toggle="dropdown" aria-expanded="false"> Unidades de Medida </a>
 							<ul class="dropdown-menu dropdown-menu-dark"
 								aria-labelledby="navbarDarkDropdownMenuLink">
-								<li><a class="dropdown-item" th:href="@{/unidadeMedida/manage}">Cadastrar</a></li>
+								<li sec:authorize="hasRole('admin')"><a class="dropdown-item" th:href="@{/unidadeMedida/manage}">Cadastrar (admin)</a></li>
 								<li><a class="dropdown-item" th:href="@{/unidadeMedida}">Listar</a></li>
 							</ul></li>
 					</ul>
+					<form class="form-inline my-2 my-lg-0 me-3" method="post" th:action="@{/logout}">
+						<button class="btn btn-outline-danger my-2 my-sm-0 me-1" type="submit">Log out</button>
+					</form>
+					
 					<span class="navbar-text">
-						<a class="btn btn-outline-info me-3" type="button" th:href="@{/}">Login</a>
+						<a class="btn btn-success me-3" type="button" th:href="@{/popular}">Popular</a>
 						<strong class="align-middle">O Melhor Site para Drinks</strong>
 					</span>
 				</div>
 			</div>
 		</nav>
+			
+		<div id="conteudo" class="container" layout:fragment="content"></div>
 		
 		<nav class="navbar fixed-bottom navbar-dark bg-dark justify-content-center">
 		  <div class="container-fluid">
@@ -107,7 +114,6 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 	</div>
 
-	<div id="conteudo" class="container" layout:fragment="content"></div>
 	
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"

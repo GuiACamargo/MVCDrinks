@@ -12,11 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gft.receitas.entities.Receita;
-import com.gft.receitas.entities.Item;
 import com.gft.receitas.services.IngredienteService;
-import com.gft.receitas.services.ReceitaService;
 import com.gft.receitas.services.ItemService;
-import com.gft.receitas.services.UnidadeMedidaService;
+import com.gft.receitas.services.ReceitaService;
 
 @Controller
 @RequestMapping("/receita")
@@ -29,44 +27,30 @@ public class ReceitaController {
 	private IngredienteService ingredienteService;
 	
 	@Autowired
-	private UnidadeMedidaService unidadeMedidaService;
-	
-	@Autowired
 	private ItemService itemService; 
 	
 	@RequestMapping(path = "/manage")
-	public ModelAndView editarReceita(@RequestParam (required=false) Long idItem, @RequestParam (required=false) Long idReceita) {
+	public ModelAndView editarReceita(@RequestParam (required=false) Long idReceita) {
 		ModelAndView mv = new ModelAndView("receita/form");
 		Receita receita;
-		Item item;
 		
-		if(idItem==null || idReceita==null) {
+		if(idReceita==null) {
 			receita = new Receita();
-			item = new Item();
-			mv.addObject("listaIngrediente", ingredienteService.listaIngredienteCompleto());
-			mv.addObject("listaUnidadeMedida", unidadeMedidaService.listaUnidadeMedidaCompleto());
 		} else {
 			try {
 				receita = receitaService.obterReceita(idReceita);
-				item = itemService.obterItem(idItem);
 			} catch (Exception e) {
 				receita = new Receita();
-				item = new Item();
 				mv.addObject("mensagem", e.getMessage());
 			}
 		}
 		
-		item.setReceita(receita);
 		mv.addObject("receita", receita);
-		mv.addObject("item", item);
-		mv.addObject("listaIngrediente", ingredienteService.listaIngredienteCompleto());
-		mv.addObject("listaUnidadeMedida", unidadeMedidaService.listaUnidadeMedidaCompleto());
-		
 		return mv;
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, path = "/manage")
-	public ModelAndView salvarReceita(@Valid Receita receita, Item item, BindingResult bindingResult) {
+	public ModelAndView salvarReceita(@Valid Receita receita, BindingResult bindingResult) {
 		ModelAndView mv = new ModelAndView("receita/form");
 		boolean novo = true;
 		Boolean naoTemNoBanco = false;
@@ -74,20 +58,18 @@ public class ReceitaController {
 		
 		if(receita.getId() != null) {
 			mv.addObject("receita", receita);
-			mv.addObject("item", item);
 			novo = false;
 		}
 			
 		if(bindingResult.hasErrors()) {
 			mv.addObject("receita", receita);
-			mv.addObject("item", item);
 			return mv;
 		}
 		
+		receitaService.salvarReceita(receita);
+
 		try {
 			receitaService.salvarReceita(receita);
-			itemService.salvarReceitaNoItem(item, receita);
-			itemService.salvarItem(item);
 			naoTemNoBanco = true;
 			mv.addObject("mensagem", "Drink salvo com sucesso!");
 			mv.addObject("naoTemNoBanco", naoTemNoBanco);
@@ -100,14 +82,10 @@ public class ReceitaController {
 
 		if(novo) {
 			mv.addObject("receita", new Receita());
-			mv.addObject("item", new Item());
 		} else {
 			mv.addObject("receita", receita);
-			mv.addObject("item", item);
 		}
 		
-		mv.addObject("listaIngrediente", ingredienteService.listaIngredienteCompleto());
-		mv.addObject("listaUnidadeMedida", unidadeMedidaService.listaUnidadeMedidaCompleto());
 		return mv;
 	}
 	
@@ -117,17 +95,17 @@ public class ReceitaController {
 		mv.addObject("listaItem", itemService.listaItens(nome, ingrediente));
 		mv.addObject("listaCompleta", itemService.listaItensCompletos());
 		mv.addObject("listaIngredientes", ingredienteService.listaIngredienteCompleto());
+		mv.addObject("listaReceita", receitaService.listaReceitaCompleta());
 		return mv;
 	}
 	
 	@RequestMapping(path="/excluir")
-	public ModelAndView excluirReceita(@RequestParam Long idReceita, @RequestParam Long idItem, RedirectAttributes redirectAttributes) {
+	public ModelAndView excluirReceita(@RequestParam Long idReceita, RedirectAttributes redirectAttributes) {
 		ModelAndView mv = new ModelAndView("redirect:/receita");
 		Boolean temErro = false;
 		Boolean semErro = false;
 		
 		try {
-			itemService.excluirItem(idItem);
 			receitaService.excluirReceita(idReceita);		
 			semErro = true;
 			redirectAttributes.addFlashAttribute("mensagem", "Drink excluído com sucesso!");

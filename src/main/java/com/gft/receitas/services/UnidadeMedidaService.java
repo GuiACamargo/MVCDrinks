@@ -30,6 +30,10 @@ public class UnidadeMedidaService {
 		return unidadeMedida.get();
 	}
 	
+	public UnidadeMedida obterUnidadeMedidaPuroPeloNome (String nome) {
+		return unidadeMedidaRepository.findByNome(nome);
+	}
+	
 	public List<UnidadeMedida> listaUnidadeMedida (String nome) {
 		if (nome != null) {
 			return unidadeMedidaRepository.findByNomeContains(nome);

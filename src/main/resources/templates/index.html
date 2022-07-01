@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout.html}">
 <meta charset="UTF-8">
@@ -14,27 +15,13 @@
   		</symbol>
     </svg>
 	
-	<div class="alert alert-success d-flex align-items-center mt-4 alert-dismissible fade show" role="alert" th:if="${naoTemNoBanco}">
-		<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-		<div th:text="${mensagem}"></div>
-		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-	</div>
-	<div class="alert alert-warning d-flex align-items-center mt-4 alert-dismissible fade show" role="alert" th:if="${temNoBanco}">
-		<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:" style="float:left"><use xlink:href="#exclamation-triangle-fill"/></svg>
-		<div th:text="${mensagem}"></div>
-		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-	</div>
+
 	
 	<div class="card text-bg-dark mt-3">
 		<div class="card-body">
 			<div class="row">
 				<div class="col">
-					<a class="btn btn-success btn-lg col align-self-center" th:href="@{/popular}">
-						<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-hdd-stack-fill" viewBox="0 0 16 16">
-			  				<path d="M2 9a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1a2 2 0 0 0-2-2H2zm.5 3a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm2 0a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zM2 2a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2zm.5 3a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm2 0a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1z"/>
-						</svg>
-						<span class="align-middle"> Popular Banco de Dados </span>
-					</a>
+					
 				</div>
 			</div>
 		</div>	 
