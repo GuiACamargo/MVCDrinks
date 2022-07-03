@@ -43,8 +43,8 @@ public class WebSecurityConfig {
 	            .antMatchers("/ingrediente/excluir").hasAnyRole("admin")
 	            .antMatchers("/unidadeMedida/excluir").hasAnyRole("admin")
 	            .antMatchers("/receita").hasAnyRole("user","admin")
-	            .antMatchers("/ingrediente").hasAnyRole("user","admin")
-	            .antMatchers("/unidadeMedida").hasAnyRole("user","admin")
+	            .antMatchers("/ingrediente").hasAnyRole("admin")
+	            .antMatchers("/unidadeMedida").hasAnyRole("admin")
 	            .antMatchers("/css/**").permitAll()
 	            .antMatchers("/images/**").permitAll()
 	            .anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll()
@@ -63,6 +63,6 @@ public class WebSecurityConfig {
 	
 	@Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/css/**");
+        return (web) -> web.ignoring();
     }
 }

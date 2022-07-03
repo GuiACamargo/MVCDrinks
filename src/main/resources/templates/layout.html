@@ -41,32 +41,32 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 							data-bs-toggle="dropdown" aria-expanded="false"> Drinks </a>
 							<ul class="dropdown-menu dropdown-menu-dark"
 								aria-labelledby="navbarDarkDropdownMenuLink">
-								<li sec:authorize="hasRole('admin')"><a class="dropdown-item" th:href="@{/receita/manage}">Cadastrar (admin)</a></li>
+								<li sec:authorize="hasRole('admin')"><a class="dropdown-item" th:href="@{/receita/manage}">Cadastrar</a></li>
 								<li><a class="dropdown-item" th:href="@{/receita}">Listar</a></li>
 							</ul></li>
 
-						<li class="nav-item dropdown"><a
+						<li class="nav-item dropdown" sec:authorize="hasRole('admin')"><a
 							class="nav-link dropdown-toggle" href="#"
 							id="navbarDarkDropdownMenuLink" role="button"
 							data-bs-toggle="dropdown" aria-expanded="false"> Ingredientes
 						</a>
 							<ul class="dropdown-menu dropdown-menu-dark"
 								aria-labelledby="navbarDarkDropdownMenuLink">
-								<li sec:authorize="hasRole('admin')"><a class="dropdown-item" th:href="@{/ingrediente/manage}">Cadastrar (admin)</a></li>
+								<li><a class="dropdown-item" th:href="@{/ingrediente/manage}">Cadastrar</a></li>
 								<li><a class="dropdown-item" th:href="@{/ingrediente}">Listar</a></li>
 							</ul></li>
 
-						<li class="nav-item dropdown"><a
+						<li class="nav-item dropdown" sec:authorize="hasRole('admin')"><a
 							class="nav-link dropdown-toggle" href="#"
 							id="navbarDarkDropdownMenuLink" role="button"
 							data-bs-toggle="dropdown" aria-expanded="false"> Unidades de Medida </a>
 							<ul class="dropdown-menu dropdown-menu-dark"
 								aria-labelledby="navbarDarkDropdownMenuLink">
-								<li sec:authorize="hasRole('admin')"><a class="dropdown-item" th:href="@{/unidadeMedida/manage}">Cadastrar (admin)</a></li>
+								<li><a class="dropdown-item" th:href="@{/unidadeMedida/manage}">Cadastrar</a></li>
 								<li><a class="dropdown-item" th:href="@{/unidadeMedida}">Listar</a></li>
 							</ul></li>
 					</ul>
-					<form class="form-inline my-2 my-lg-0 me-3" method="post" th:action="@{/logout}">
+					<form class="form-inline my-2 my-lg-0 me-3" method="post" th:action="@{/logout}" sec:authorize="hasAnyRole('admin', 'user')">
 						<button class="btn btn-outline-danger my-2 my-sm-0 me-1" type="submit">Log out</button>
 					</form>
 					

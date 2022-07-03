@@ -29,8 +29,9 @@ spring.jpa.hibernate.ddl-auto=update
 ```
 No lugar de ambos os "**root**" substituia o primeiro pelo seu username e o segundo pela senha do banco de dados
 (*e outros que julgue necessário*)
-do MySQL Workbench 8 para a utilização e integração correta do banco de dados. Para iniciar o projeto, aperte com o botão direito no projeto, e então, **Run As > Spring Boot App**.
-Usuário e Admins Iniciais:
+do MySQL Workbench 8 para a utilização e integração correta do banco de dados. Para iniciar o projeto, aperte com o botão direito no projeto, e então, **Run As > Spring Boot App**, 
+abra então o seu navegador de preferência o Google Chrome, que foi utilizado para o desenvolvimento e acesse localhost:8080.
+**Usuário e Admins Iniciais**:
 ```
 USUÁRIO
 Usuário: usuario@gft.com
@@ -40,6 +41,7 @@ ADMIN:
 Usuário: admin@gft.com
 Senha: Gft@1234
 ```
+**_ATENÇÃO_**: O botão (verde) para popular o banco com as receitas se localiza no superior direito da página, no canto da navbar.
   
 
 

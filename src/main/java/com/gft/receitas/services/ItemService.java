@@ -53,4 +53,8 @@ public class ItemService {
 	public void salvarReceitaNoItem (Item item, Receita receita) {
 		item.setReceita(receita);
 	}
+	
+	public List<Item> listaItensPelaReceita (Receita receita) {
+		return itemRepository.findByReceita(receita);
+	}
 }

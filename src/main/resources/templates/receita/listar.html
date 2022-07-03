@@ -24,6 +24,16 @@
 	    <div th:text="${mensagem}"></div>
 	    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 	</div>
+		<div class="alert alert-success d-flex align-items-center mt-4 alert-dismissible fade show" role="alert" th:if="${naoTemNoBanco}">
+		<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+		<div th:text="${mensagem}"></div>
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+	<div class="alert alert-warning d-flex align-items-center mt-4 alert-dismissible fade show" role="alert" th:if="${temNoBanco}">
+		<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:" style="float:left"><use xlink:href="#exclamation-triangle-fill"/></svg>
+		<div th:text="${mensagem}"></div>
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
 	
 	<div class="alert alert-primary mt-3" th:if="${#lists.isEmpty(listaReceita)}">
 		<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">

@@ -31,6 +31,9 @@ public class ReceitaService {
 	@Autowired
 	private ItemRepository itemRepository;
 	
+	@Autowired
+	private ItemService itemService;
+	
 	public static String capitalize(String str) {
 	    if(str == null || str.isEmpty()) {
 	        return str;
@@ -40,11 +43,17 @@ public class ReceitaService {
 	}
 
 	// i % 3 trim()
-	// resto 0 -> ingrediente
+	// resto 0 -> quantidade
 	// resto 1 -> unidade de Medida
-	// resto 2 -> quantidade
+	// resto 2 -> ingrediente
 	public Receita salvarReceita (Receita receita) {
 		receitaRepository.save(receita);
+		List<Item> itens = itemService.listaItensPelaReceita(receita);
+		if (itens != null) {
+			for (int i = 0; i<itens.size(); i++) {
+				itemService.excluirItem(itens.get(i).getId());
+			}
+		}
 		String[] partes = receita.getInfo().split(";");
 		Item item = new Item();
 		
@@ -144,7 +153,6 @@ public class ReceitaService {
 	
 	public void excluirReceita (Long id) {
 		receitaRepository.deleteById(id);
-		itemRepository.deleteById(id);
 	}
 	
 	public void popularBanco() {

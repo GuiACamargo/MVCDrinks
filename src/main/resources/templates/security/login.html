@@ -19,16 +19,6 @@
 		<div>Usuário ou Senha Inválida</div>
 		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 	</div>
-	<div class="alert alert-success d-flex align-items-center mt-4 alert-dismissible fade show" role="alert" th:if="${naoTemNoBanco}">
-		<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-		<div th:text="${mensagem}"></div>
-		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-	</div>
-	<div class="alert alert-warning d-flex align-items-center mt-4 alert-dismissible fade show" role="alert" th:if="${temNoBanco}">
-		<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Warning:" style="float:left"><use xlink:href="#exclamation-triangle-fill"/></svg>
-		<div th:text="${mensagem}"></div>
-		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-	</div>
 	
 	<div class="card text-bg-dark mt-3 mx-auto" style="width: 45rem">
 		<div class="card-header">
@@ -85,7 +75,7 @@
 				      	<img th:src="@{images/margarita.jpg}" class="d-block w-100" alt="...">
 				      	<div class="carousel-caption d-none d-md-block">
 				        	<h5 style="color:rgb(0, 0, 0)">Margarita</h5>
-				        	<p style="color:rgb(0, 0, 0)">Muchacho! feito com Limão, Tequila, Sal Marinho, Cointreau (e gelo)</p>
+				        	<p style="color:rgb(255, 255, 255)">Muchacho! feito com Limão, Tequila, Sal Marinho, Cointreau (e gelo)</p>
 				      	</div>
 				    </div>
 				</div>

@@ -22,7 +22,7 @@ public class LoginController {
 	
 	@RequestMapping("/popular")
 	public ModelAndView popularBanco(RedirectAttributes redirectAttributes) {
-		ModelAndView mv = new ModelAndView("redirect:/");
+		ModelAndView mv = new ModelAndView("redirect:/receita");
 		Boolean naoTemNoBanco = false;
 		Boolean temNoBanco = false;
 		
